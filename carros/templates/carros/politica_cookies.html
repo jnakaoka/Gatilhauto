@@ -1,0 +1,57 @@
+{% extends "carros/base.html" %}
+{% block title %}Gatilhauto | Política de Cookies{% endblock %}
+
+{% block content %}
+<section class="ga-legal-page">
+  <div class="ga-legal-container">
+    <article class="ga-legal-card">
+      <header class="ga-legal-head">
+        <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
+        Política de Cookies
+        </h1>
+        <p class="ga-muted mt-3">
+        Última atualização: {% now "d/m/Y" %}
+        </p>
+      </header>
+
+        <div class="ga-legal-body ga-legal">
+            <div>
+                <h2 class="text-xl font-extrabold">1. O que são cookies</h2>
+                <p class="ga-muted mt-2">
+                Cookies são pequenos ficheiros armazenados no seu dispositivo que ajudam um website a funcionar e,
+                em alguns casos, a melhorar a experiência do utilizador.
+                </p>
+            </div>
+
+            <div>
+                <h2 class="text-xl font-extrabold">2. Que cookies usamos</h2>
+                <p class="ga-muted mt-2">
+                Atualmente, o website da Gatilhauto <strong>não utiliza cookies de marketing</strong> e
+                <strong>não utiliza Google Analytics</strong>.
+                </p>
+                <p class="ga-muted mt-2">
+                Poderão existir cookies estritamente necessários ao funcionamento técnico (dependendo do alojamento/navegador),
+                mas não usamos cookies para publicidade, remarketing ou tracking.
+                </p>
+            </div>
+
+            <div>
+                <h2 class="text-xl font-extrabold">3. Como gerir cookies</h2>
+                <p class="ga-muted mt-2">
+                Pode apagar ou bloquear cookies nas definições do seu navegador. Note que bloquear cookies estritamente necessários
+                pode afetar o funcionamento normal do site.
+                </p>
+            </div>
+
+            <div>
+                <h2 class="text-xl font-extrabold">4. Alterações</h2>
+                <p class="ga-muted mt-2">
+                Se no futuro adicionarmos ferramentas de estatística (ex.: analytics) ou marketing, atualizaremos esta página
+                para refletir essas alterações.
+                </p>
+            </div>
+        </div>
+    </article>
+  </div>
+</section>
+{% endblock %}

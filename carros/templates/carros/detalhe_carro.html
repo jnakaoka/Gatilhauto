@@ -1,0 +1,224 @@
+<!-- detalhe_carro.html -->
+{% extends "carros/base.html" %}
+{% block title %}Gatilhauto | {{ carro.marca }} {{ carro.modelo }}{% endblock %}
+
+{% block content %}
+<section class="ga-detail">
+  <div class="ga-detail__container">
+
+    <a href="/" class="ga-detail__back">← Voltar às viaturas</a>
+
+    <div class="ga-detail__grid">
+
+      <!-- =========================
+           GALERIA (esquerda)
+           ========================= -->
+      <!-- COLUNA ESQUERDA: Galeria + Descrição -->
+      <div class="ga-detail__left">
+        <div class="ga-detail__gallery ga-card ga-border">
+          <div class="ga-gallery__mainwrap">
+            {% if imagem_capa %}
+              <img
+                id="mainImage"
+                src="{{ imagem_capa.imagem.url }}"
+                alt="{{ carro.titulo }}"
+                class="ga-gallery__main"
+                data-index="0"
+              />
+            {% else %}
+              <div class="ga-gallery__empty">Sem imagem</div>
+            {% endif %}
+
+            <div class="ga-gallery__overlay"></div>
+
+            <!-- badge opcional -->
+            {% if imagem_capa and imagem_capa.destaque %}
+              <div class="ga-gallery__badge">Destaque</div>
+            {% endif %}
+
+            <!-- controles (só aparecem se tiver imagens) -->
+            {% if imagens and imagens|length > 1 %}
+              <button type="button" class="ga-gallery__nav ga-gallery__prev" aria-label="Anterior">‹</button>
+              <button type="button" class="ga-gallery__nav ga-gallery__next" aria-label="Próxima">›</button>
+              <div class="ga-gallery__count">
+                <span id="gaCurrent">1</span>/<span id="gaTotal">{{ imagens|length }}</span>
+              </div>
+            {% endif %}
+          </div>
+
+          {% if imagens %}
+            <div class="ga-gallery__thumbs">
+              {% for img in imagens %}
+                <button
+                  type="button"
+                  class="ga-thumb {% if forloop.first %}is-active{% endif %}"
+                  data-src="{{ img.imagem.url }}"
+                  data-idx="{{ forloop.counter0 }}"
+                  aria-label="Ver imagem {{ forloop.counter }}"
+                >
+                  <img src="{{ img.imagem.url }}" alt="Imagem {{ forloop.counter }}" />
+                </button>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+        {% if carro.descricao %}
+          <div class="ga-detail__descblock ga-card ga-border">
+            <div class="ga-side__cardTitle">Descrição</div>
+            <div class="ga-side__desc">{{ carro.descricao|linebreaksbr }}</div>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- =========================
+           SIDEBAR (direita)
+           ========================= -->
+      <aside class="ga-detail__side">
+
+        <!-- topo: título + meta -->
+        <div class="ga-side__header">
+          <h1 class="ga-side__title">{{ carro.marca }} {{ carro.modelo }}</h1>
+
+          <div class="ga-side__meta">
+            <span>{{ carro.ano }}</span>
+            <span>•</span>
+            <span>{{ carro.quilometragem }} km</span>
+            <span>•</span>
+            <span>{{ carro.get_combustivel_display }}</span>
+            <span>•</span>
+            <span>{{ carro.get_transmissao_display }}</span>
+          </div>
+        </div>
+
+        <!-- preço em “pill” -->
+        <div class="ga-side__price">
+          <div class="ga-side__priceValue">€ {{ carro.preco }}</div>
+        </div>
+
+        <!-- CTA -->
+        <div class="ga-side__cta">
+          {% with msg="Olá, tenho interesse no "|add:carro.marca|add:" "|add:carro.modelo|add:" "|add:carro.ano|stringformat:"s"|add:" anunciado no site Gatilhauto." %}
+            <a
+              class="ga-btn ga-btn--primary"
+              target="_blank"
+              rel="noreferrer"
+              href="https://wa.me/351917314106?text={{ msg|urlencode }}"
+            >
+              Fale Connosco (WhatsApp)
+            </a>
+          {% endwith %}
+
+          <a class="ga-btn ga-btn--ghost" href="tel:+351917314106">
+            Ligar
+          </a>
+        </div>
+
+        <!-- specs em lista (estilo referência) -->
+        <div class="ga-side__card ga-card ga-border">
+          <div class="ga-side__cardTitle">Ficha Técnica</div>
+
+          <dl class="ga-specs">
+            <div class="ga-spec">
+              <dt>Marca</dt>
+              <dd>{{ carro.marca }}</dd>
+            </div>
+            <div class="ga-spec">
+              <dt>Modelo</dt>
+              <dd>{{ carro.modelo }}</dd>
+            </div>
+            <div class="ga-spec">
+              <dt>Ano</dt>
+              <dd>{{ carro.ano }}</dd>
+            </div>
+            <div class="ga-spec">
+              <dt>Kms</dt>
+              <dd>{{ carro.quilometragem }} km</dd>
+            </div>
+            <div class="ga-spec">
+              <dt>Transmissão</dt>
+              <dd>{{ carro.get_transmissao_display }}</dd>
+            </div>
+            <div class="ga-spec">
+              <dt>Combustível</dt>
+              <dd>{{ carro.get_combustivel_display }}</dd>
+            </div>
+            <div class="ga-spec">
+              <dt>Tipo</dt>
+              <dd>{{ carro.get_tipo_veiculo_display }}</dd>
+            </div>
+          </dl>
+        </div>
+
+        <!-- descrição -->
+        <!-- {% if carro.descricao %}
+          <div class="ga-side__card ga-card ga-border">
+            <div class="ga-side__cardTitle">Descrição</div>
+            <div class="ga-side__desc">{{ carro.descricao|linebreaksbr }}</div>
+          </div>
+        {% endif %} -->
+
+        <div class="ga-side__note">
+          * Informações sujeitas a confirmação. Entre em contacto para agendar visita e test-drive.
+        </div>
+
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- CTA mobile fixo -->
+  <div class="ga-mobilebar">
+    {% with msg="Olá, tenho interesse no "|add:carro.marca|add:" "|add:carro.modelo|add:" "|add:carro.ano|stringformat:"s"|add:" anunciado no site Gatilhauto." %}
+      <a
+        class="ga-mobilebar__btn"
+        target="_blank"
+        rel="noreferrer"
+        href="https://wa.me/351917314106?text={{ msg|urlencode }}"
+      >
+        Falar no WhatsApp
+      </a>
+    {% endwith %}
+  </div>
+</section>
+
+<script>
+  (function () {
+    const mainImage = document.getElementById("mainImage");
+    const thumbs = Array.from(document.querySelectorAll(".ga-thumb"));
+    const btnPrev = document.querySelector(".ga-gallery__prev");
+    const btnNext = document.querySelector(".ga-gallery__next");
+    const elCurrent = document.getElementById("gaCurrent");
+    const elTotal = document.getElementById("gaTotal");
+
+    if (!mainImage || thumbs.length === 0) return;
+
+    const images = thumbs.map(t => t.getAttribute("data-src")).filter(Boolean);
+    let idx = 0;
+
+    function setActive(i) {
+      idx = (i + images.length) % images.length;
+      mainImage.src = images[idx];
+
+      thumbs.forEach(t => t.classList.remove("is-active"));
+      const active = thumbs.find(t => Number(t.getAttribute("data-idx")) === idx);
+      if (active) active.classList.add("is-active");
+
+      if (elCurrent) elCurrent.textContent = String(idx + 1);
+      if (elTotal) elTotal.textContent = String(images.length);
+    }
+
+    thumbs.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const i = Number(btn.getAttribute("data-idx") || 0);
+        setActive(i);
+      });
+    });
+
+    if (btnPrev) btnPrev.addEventListener("click", () => setActive(idx - 1));
+    if (btnNext) btnNext.addEventListener("click", () => setActive(idx + 1));
+
+    // init
+    setActive(0);
+  })();
+</script>
+{% endblock %}

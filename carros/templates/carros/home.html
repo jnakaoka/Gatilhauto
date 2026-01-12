@@ -1,0 +1,578 @@
+<!-- home.html -->
+{% extends "carros/base.html" %}
+{% load querystring %}
+{% load static %}
+{% block title %}Gatilhauto | Viaturas{% endblock %}
+
+{% block content %}
+
+{# HERO FULL-WIDTH (fundo) + conteúdo por cima #}
+<section class="ga-hero-wrap" id="gaHero" aria-label="Destaques">
+  <!-- BACKGROUND (slides) -->
+  <div class="ga-hero-bg" aria-hidden="true">
+    <div class="ga-hero-slide is-active" style="background-image:url('{% static 'img/hero/hero-1.jpeg' %}')"></div>
+    <div class="ga-hero-slide" style="background-image:url('{% static 'img/hero/hero-2.jpeg' %}')"></div>
+    <div class="ga-hero-slide" style="background-image:url('{% static 'img/hero/hero-3.jpeg' %}')"></div>
+    <div class="ga-hero-overlay"></div>
+  </div>
+
+  <!-- CONTEÚDO POR CIMA -->
+  <div class="ga-container ga-hero-content">
+    <div class="ga-hero-head">
+      <!-- <div>
+        <h1 class="ga-hero-h1">Viaturas disponíveis</h1>
+        <p class="ga-hero-p">
+          Seleção de viaturas com foco em qualidade e transparência. Veja os detalhes e fale connosco.
+        </p>
+      </div> -->
+
+      <!-- <a
+        href="https://wa.me/351000000000"
+        class="ga-hero-cta"
+      >
+        Contactar no WhatsApp
+      </a> -->
+    </div>
+
+    <div class="ga-hero-center">
+      <h2 class="ga-hero-title">Encontre a sua próxima viatura</h2>
+      <p class="ga-hero-subtitle">
+        Pesquise por marca, modelo e refine a pesquisa para ver as melhores opções disponíveis.
+      </p>
+      <!-- <div class="ga-brand__title ga-hero-center">GATILHAUTO</div> -->
+
+      <!-- <div class="ga-hero-dots" role="tablist" aria-label="Slides">
+        <button type="button" class="ga-dot is-active" aria-label="Slide 1" aria-selected="true"></button>
+        <button type="button" class="ga-dot" aria-label="Slide 2" aria-selected="false"></button>
+        <button type="button" class="ga-dot" aria-label="Slide 3" aria-selected="false"></button>
+      </div> -->
+    </div>
+
+    <!-- <a class="ga-brand" href="/">
+      <img class="ga-brand__logo" src="{% static 'img/logo-gatilhauto.png' %}" alt="Gatilhauto">
+    </a> -->
+
+
+    {# FILTROS “EM CIMA” do hero (estilo Gart) #}
+    
+  </div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 pt-10">
+  <!-- <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+    <div>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
+        Viaturas disponíveis
+      </h1>
+      <p class="text-[#9CA3AF] mt-2 max-w-2xl">
+        Seleção de viaturas com foco em qualidade e transparência. Veja os detalhes e fale connosco.
+      </p>
+    </div>
+
+    <a href="https://wa.me/351000000000" class="inline-flex items-center justify-center px-5 py-3 rounded-xl bg-[#D4AF37] text-black font-bold hover:opacity-90 transition">
+      Contactar no WhatsApp
+    </a>
+  </div> -->
+  <!-- <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+    <div>
+      <h1 class="text-4xl font-bold text-white">Viaturas disponíveis</h1>
+      <p class="mt-2 text-white/60 max-w-2xl">
+        Seleção de viaturas com foco em qualidade e transparência. Veja os detalhes e fale conosco.
+      </p>
+    </div>
+
+    <a
+      target="_blank"
+      href="https://wa.me/351000000000"
+      class="inline-flex h-11 items-center justify-center rounded-xl bg-[#D6B23A] px-5 font-semibold text-black hover:brightness-110 transition"
+    >
+      Contactar no WhatsApp
+    </a>
+  </div>
+
+  <section class="ga-hero ga-fullbleed" id="gaHero" aria-label="Destaques">
+    <div class="ga-hero__slides" aria-hidden="true">
+      <div class="ga-hero__slide is-active" style="background-image:url('{% static "img/hero/hero-1.jpeg" %}')"></div>
+      <div class="ga-hero__slide" style="background-image:url('{% static "img/hero/hero-2.jpeg" %}')"></div>
+      <div class="ga-hero__slide" style="background-image:url('{% static "img/hero/hero-3.jpeg" %}')"></div>
+    </div>
+
+    <div class="ga-hero__overlay"></div>
+
+    <div class="ga-hero__inner">
+      <div class="ga-hero__content">
+        <h2 class="ga-hero__title">Encontre a sua próxima viatura</h2>
+        <p class="ga-hero__subtitle">
+          Pesquise por marca, modelo e refine a pesquisa para ver as melhores opções disponíveis.
+        </p>
+
+        <div class="ga-hero__dots" role="tablist" aria-label="Slides">
+          <button type="button" class="ga-dot is-active" aria-label="Slide 1" aria-selected="true"></button>
+          <button type="button" class="ga-dot" aria-label="Slide 2" aria-selected="false"></button>
+          <button type="button" class="ga-dot" aria-label="Slide 3" aria-selected="false"></button>
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+  <form method="get" class="filters" id="filtersForm">
+    <div class="filters-shell">
+
+      <!-- Top bar: “Pesquisa Rápida / Pesquisa Detalhada” -->
+      <div class="filters-top">
+        <div class="filters-tabs">
+          <button type="button" class="tab is-active" aria-current="true">
+            Pesquisa
+          </button>
+        </div>
+
+        <button
+          type="button"
+          class="toggle-advanced"
+          id="toggleAdvancedBtn"
+          aria-expanded="false"
+          aria-controls="advancedFields"
+        >
+          Pesquisa detalhada
+          <span class="chev" aria-hidden="true">▾</span>
+        </button>
+      </div>
+
+      <!-- Capsule: pesquisa rápida -->
+      <div class="filters-pill">
+        <div class="f-item">
+          <label class="f-label">Marca</label>
+          <select id="marcaSelect" name="marca" class="f-control">
+            <option value="">Todas</option>
+            {% for m in marcas %}
+              <option value="{{ m.id }}" {% if filtros.marca == m.id|stringformat:"s" %}selected{% endif %}>
+                {{ m.nome }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="f-item">
+          <label class="f-label">Modelo</label>
+          <select id="modeloSelect" name="modelo" class="f-control">
+            <option value="">Todos</option>
+            {% for mo in modelos %}
+              <option value="{{ mo.id }}"
+                      data-marca="{{ mo.marca_id }}"
+                      {% if filtros.modelo == mo.id|stringformat:"s" %}selected{% endif %}>
+                {{ mo.nome }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="f-item">
+          <label class="f-label">Combustível</label>
+          <select name="combustivel" class="f-control">
+            <option value="">Todos</option>
+            <option value="gasolina" {% if filtros.combustivel == "gasolina" %}selected{% endif %}>Gasolina</option>
+            <option value="diesel" {% if filtros.combustivel == "diesel" %}selected{% endif %}>Diesel</option>
+            <option value="hibrido" {% if filtros.combustivel == "hibrido" %}selected{% endif %}>Híbrido</option>
+            <option value="eletrico" {% if filtros.combustivel == "eletrico" %}selected{% endif %}>Elétrico</option>
+          </select>
+        </div>
+
+        <div class="f-actions">
+          <button id="btnSubmitFilters" type="submit" class="btn-filter">
+            Filtrar
+          </button>
+
+          <a href="/" class="btn-clear">
+            Limpar
+          </a>
+        </div>
+      </div>
+
+      <!-- Detalhado (colapsável) -->
+      <div id="advancedFields" class="advanced">
+        <div class="advanced-grid">
+          <div class="f-item f-item--flat">
+            <label class="f-label">Ano (Min)</label>
+            <input type="number" name="ano_min" class="f-control" placeholder="Ex: 2014" value="{{ filtros.ano_min }}">
+          </div>
+
+          <div class="f-item f-item--flat">
+            <label class="f-label">Ano (Max)</label>
+            <input type="number" name="ano_max" class="f-control" placeholder="Ex: 2020" value="{{ filtros.ano_max }}">
+          </div>
+
+          <div class="f-item f-item--flat">
+            <label class="f-label">Transmissão</label>
+            <select name="transmissao" class="f-control">
+              <option value="">Todas</option>
+              <option value="manual" {% if request.GET.transmissao == "manual" %}selected{% endif %}>
+                Manual
+              </option>
+              <option value="automatica" {% if request.GET.transmissao == "automatica" %}selected{% endif %}>
+                Automática
+              </option>
+            </select>
+          </div>
+
+          <div class="f-item f-item--flat">
+            <label class="f-label">Preço (Min)</label>
+            <input
+              type="number"
+              name="preco_min"
+              class="f-control"
+              placeholder="Ex: 5000"
+              min="0"
+              value="{{ request.GET.preco_min|default_if_none:'' }}"
+            />
+          </div>
+
+          <div class="f-item f-item--flat">
+            <label class="f-label">Preço (Max)</label>
+            <input
+              type="number"
+              name="preco_max"
+              class="f-control"
+              placeholder="Ex: 20000"
+              min="0"
+              value="{{ request.GET.preco_max|default_if_none:'' }}"
+            />
+          </div>
+
+          <div class="f-item">
+            <label class="f-label">Tipo</label>
+            <select name="tipo" class="f-control">
+              <option value="" {% if not filtros.tipo %}selected{% endif %}>Todos</option>
+              <option value="auto" {% if filtros.tipo == "auto" %}selected{% endif %}>Automóveis</option>
+              <option value="comercial" {% if filtros.tipo == "comercial" %}selected{% endif %}>Comerciais</option>
+              <option value="classico" {% if filtros.tipo == "classico" %}selected{% endif %}>Clássicos</option>
+            </select>
+          </div>
+
+          <div class="f-item f-item--flat">
+            <label class="f-label">Ord.</label>
+            <select name="sort" class="f-control">
+              <option value="recentes" {% if filtros.sort == "recentes" %}selected{% endif %}>Recentes</option>
+              <option value="preco_asc" {% if filtros.sort == "preco_asc" %}selected{% endif %}>€ ↑</option>
+              <option value="preco_desc" {% if filtros.sort == "preco_desc" %}selected{% endif %}>€ ↓</option>
+              <option value="ano_desc" {% if filtros.sort == "ano_desc" %}selected{% endif %}>Ano ↓</option>
+              <option value="ano_asc" {% if filtros.sort == "ano_asc" %}selected{% endif %}>Ano ↑</option>
+              <option value="km_asc" {% if filtros.sort == "km_asc" %}selected{% endif %}>KM ↑</option>
+              <option value="km_desc" {% if filtros.sort == "km_desc" %}selected{% endif %}>KM ↓</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </form>
+
+    <!-- {% if page_obj %}
+    <div class="mt-10 flex items-center justify-center gap-2">
+      {% if page_obj.has_previous %}
+        <a class="px-4 py-2 rounded-xl border ga-border ga-muted hover:ga-gold transition"
+          href="?{% if filtros.marca %}marca={{ filtros.marca|urlencode }}&{% endif %}
+                {% if filtros.combustivel %}combustivel={{ filtros.combustivel|urlencode }}&{% endif %}
+                {% if filtros.ano_min %}ano_min={{ filtros.ano_min|urlencode }}&{% endif %}
+                {% if filtros.ano_max %}ano_max={{ filtros.ano_max|urlencode }}&{% endif %}
+                sort={{ filtros.sort|urlencode }}&page={{ page_obj.previous_page_number }}">
+          ← Anterior
+        </a>
+      {% endif %}
+
+      <span class="px-4 py-2 rounded-xl ga-card border ga-border ga-muted">
+        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+      </span>
+
+      {% if page_obj.has_next %}
+        <a class="px-4 py-2 rounded-xl border ga-border ga-muted hover:ga-gold transition"
+          href="?{% if filtros.marca %}marca={{ filtros.marca|urlencode }}&{% endif %}
+                {% if filtros.combustivel %}combustivel={{ filtros.combustivel|urlencode }}&{% endif %}
+                {% if filtros.ano_min %}ano_min={{ filtros.ano_min|urlencode }}&{% endif %}
+                {% if filtros.ano_max %}ano_max={{ filtros.ano_max|urlencode }}&{% endif %}
+                sort={{ filtros.sort|urlencode }}&page={{ page_obj.next_page_number }}">
+          Próxima →
+        </a>
+      {% endif %}
+    </div>
+  {% endif %} -->
+
+</section>
+<section class="cars-wrap">
+  <div class="mt-10 cars-grid">
+    {% for carro in carros %}
+      <a href="{% url 'detalhe_carro' carro.id %}"
+        class="relative cursor-pointer group rounded-2xl ga-card border ga-border overflow-hidden transition
+      hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/30">
+        <div class="aspect-[16/10] bg-black/20">
+          <!-- {% with carro.imagens.all|first as img %}
+            {% if img and img.destaque %}
+              <div class="absolute top-4 left-4 z-10 px-3 py-1 text-xs font-bold rounded-full ga-gold-bg">
+                Destaque
+              </div>
+            {% endif %}
+          {% endwith %} -->
+          {% with carro.imagens.all|first as img %}
+            {% if img %}
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+              <img src="{{ img.imagem.url }}" alt="{{ carro.titulo }}" class="w-full h-full object-cover group-hover:scale-[1.02] transition">
+            {% else %}
+              <div class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
+                Sem imagem
+              </div>
+            {% endif %}
+          {% endwith %}
+        </div>
+
+        <div class="p-5">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <div class="font-bold text-lg leading-tight">{{ carro.marca.nome }} {{ carro.modelo.nome }}</div>
+              <div class="text-sm text-[#9CA3AF] mt-1">{{ carro.ano }} • {{ carro.quilometragem }} km • {{ carro.get_combustivel_display }} • {{ carro.get_transmissao_display }} • {{ carro.get_tipo_veiculo_display }}</div>
+            </div>
+            <div class="ga-gold font-extrabold text-xl whitespace-nowrap">
+              € {{ carro.preco }}
+            </div>
+          </div>
+
+          <div class="mt-4 inline-flex items-center text-sm text-[#D4AF37] font-semibold">
+            Ver detalhes →
+          </div>
+        </div>
+      </a>
+    {% empty %}
+    <div class="text-[#9CA3AF]">Ainda não há viaturas cadastradas.</div>
+    {% endfor %}
+  </div>
+  {% if page_obj %}
+    <div class="mt-10 flex items-center justify-center gap-2">
+      {% if page_obj.has_previous %}
+        <a class="px-4 py-2 rounded-xl border ga-border ga-muted hover:ga-gold transition"
+          href="?{% querystring page=page_obj.previous_page_number %}">
+          ← Anterior
+        </a>
+      {% endif %}
+
+      <span class="px-4 py-2 rounded-xl ga-card border ga-border ga-muted">
+        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+      </span>
+
+      {% if page_obj.has_next %}
+        <a class="px-4 py-2 rounded-xl border ga-border ga-muted hover:ga-gold transition"
+          href="?{% querystring page=page_obj.next_page_number %}">
+          Próxima →
+        </a>
+      {% endif %}
+    </div>
+  {% endif %}
+</section>
+<script src="{% static 'carros/site/filtro_modelos_por_marca.js' %}"></script>
+<script>
+  (function () {
+    const marca = document.getElementById("marcaSelect");
+    const modelo = document.getElementById("modeloSelect");
+    if (!marca || !modelo) return;
+
+    const allOptions = Array.from(modelo.querySelectorAll("option"));
+
+    function aplicarFiltro() {
+      const marcaId = (marca.value || "").trim(); // FK (id)
+      const temMarca = marcaId !== "";
+
+      // desabilita modelo se não tiver marca (UX)
+      modelo.disabled = !temMarca;
+
+      // se não tiver marca: mostra tudo e reseta para "Todos"
+      if (!temMarca) {
+        allOptions.forEach(opt => (opt.hidden = false));
+        modelo.value = "";
+        return;
+      }
+
+      // tem marca: filtra options por data-marca (FK)
+      allOptions.forEach(opt => {
+        if (!opt.value) { // "Todos"
+          opt.hidden = false;
+          return;
+        }
+        const optMarcaId = opt.getAttribute("data-marca"); // FK (id)
+        opt.hidden = optMarcaId !== marcaId;
+      });
+
+      // se o modelo selecionado não pertence, reseta
+      const selected = modelo.selectedOptions[0];
+      if (selected && selected.value) {
+        const selectedMarcaId = selected.getAttribute("data-marca");
+        if (selectedMarcaId !== marcaId) {
+          modelo.value = "";
+        }
+      }
+    }
+
+    // ao trocar marca, reseta modelo e aplica filtro
+    marca.addEventListener("change", function () {
+      modelo.value = "";
+      aplicarFiltro();
+    });
+
+    aplicarFiltro();
+  })();
+</script>
+<script>
+  (function () {
+    const btn = document.getElementById("toggleAdvancedBtn");
+    const adv = document.getElementById("advancedFields");
+
+    console.log("[GA] toggle init", { btn, adv });
+
+    if (!btn || !adv) return;
+
+    const chev = btn.querySelector(".chev");
+
+    function setOpen(isOpen) {
+      btn.setAttribute("aria-expanded", String(isOpen));
+      // força por style (não falha com Tailwind/CSS)
+
+      const submitBtn = document.getElementById("btnSubmitFilters");
+      if (submitBtn) {
+        submitBtn.textContent = isOpen ? "Ver resultados" : "Filtrar";
+      }
+
+      adv.style.display = isOpen ? "block" : "none";
+      if (chev) chev.style.transform = isOpen ? "rotate(180deg)" : "rotate(0deg)";
+      localStorage.setItem("ga_filters_advanced", isOpen ? "1" : "0");
+    }
+
+    btn.addEventListener("click", () => {
+      const isOpen = btn.getAttribute("aria-expanded") === "true";
+      setOpen(!isOpen);
+    });
+
+    const url = new URL(window.location.href);
+    const hasAdvanced =
+      url.searchParams.get("ano_min") ||
+      url.searchParams.get("ano_max") ||
+      url.searchParams.get("sort") ||
+      url.searchParams.get("transmissao");
+
+    const saved = localStorage.getItem("ga_filters_advanced") === "1";
+    setOpen(Boolean(hasAdvanced || saved));
+  })();
+</script>
+<script>
+  console.log("[GA] home.html carregado");
+  const btnTest = document.getElementById("toggleAdvancedBtn");
+  const advTest = document.getElementById("advancedFields");
+  console.log("[GA] btn:", btnTest, "adv:", advTest);
+</script>
+
+<script>
+  (function () {
+    const form = document.getElementById("filtersForm");
+    if (!form) return;
+
+    form.addEventListener("submit", (e) => {
+      const min = form.querySelector('input[name="preco_min"]')?.value;
+      const max = form.querySelector('input[name="preco_max"]')?.value;
+
+      if (min && max && Number(min) > Number(max)) {
+        e.preventDefault();
+        alert("Preço mínimo não pode ser maior que o preço máximo.");
+      }
+    });
+  })();
+</script>
+
+<script>
+  (function () {
+    const root = document.getElementById("gaHero");
+    if (!root) return;
+
+    const slides = Array.from(root.querySelectorAll(".ga-hero-slide"));
+    const dots = Array.from(root.querySelectorAll(".ga-dot"));
+    if (slides.length === 0) return;
+
+    let idx = 0;
+    let timer = null;
+    const INTERVAL = 5500;
+
+    function setActive(nextIdx) {
+      idx = (nextIdx + slides.length) % slides.length;
+
+      slides.forEach((el, i) => el.classList.toggle("is-active", i === idx));
+      dots.forEach((el, i) => {
+        el.classList.toggle("is-active", i === idx);
+        el.setAttribute("aria-selected", i === idx ? "true" : "false");
+      });
+    }
+
+    function start() {
+      stop();
+      timer = setInterval(() => setActive(idx + 1), INTERVAL);
+    }
+
+    function stop() {
+      if (timer) clearInterval(timer);
+      timer = null;
+    }
+
+    // dots click
+    dots.forEach((dot, i) => {
+      dot.addEventListener("click", () => {
+        setActive(i);
+        start();
+      });
+    });
+
+    // pausar quando mouse estiver em cima (desktop)
+    root.addEventListener("mouseenter", stop);
+    root.addEventListener("mouseleave", start);
+
+    // inicia
+    setActive(0);
+    start();
+  })();
+</script>
+
+<!-- <script>
+  (function () {
+    const marca = document.getElementById("marcaSelect");
+    const modelo = document.getElementById("modeloSelect");
+    if (!marca || !modelo) return;
+
+    const opts = Array.from(modelo.querySelectorAll("option"));
+
+    function filtrarModelos() {
+      const marcaId = marca.value;
+
+      // habilita/desabilita
+      modelo.disabled = !marcaId;
+
+      // se não tiver marca, mostra tudo mas deixa desabilitado e reseta
+      if (!marcaId) {
+        opts.forEach(opt => opt.hidden = false);
+        modelo.value = "";
+        return;
+      }
+
+      // tem marca: filtra options
+      opts.forEach(opt => {
+        if (!opt.value) return; // "Todos"
+        const optMarca = opt.getAttribute("data-marca");
+        opt.hidden = optMarca !== marcaId;
+      });
+
+      // se o modelo selecionado não pertence, reseta
+      const selected = modelo.selectedOptions[0];
+      if (selected && selected.value) {
+        const selectedMarca = selected.getAttribute("data-marca");
+        if (selectedMarca !== marcaId) modelo.value = "";
+      }
+    }
+
+    marca.addEventListener("change", filtrarModelos);
+    filtrarModelos();
+  })();
+</script> -->
+
+
+{% endblock %}

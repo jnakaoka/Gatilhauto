@@ -1,0 +1,562 @@
+<!-- base.html -->
+{% load static %}
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}Gatilhauto{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/output.css' %}">
+  <link rel="icon" href="{% static 'img/favicon/favicon.ico' %}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon/favicon-32x32.png' %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon/favicon-16x16.png' %}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/favicon/apple-touch-icon.png' %}">
+  <link rel="manifest" href="{% static 'img/favicon/site.webmanifest' %}">
+  <meta name="theme-color" content="#0B0F14">
+</head>
+<body class="ga-bg ga-text min-h-screen">
+  <header class="ga-header ga-header--overlay" id="gaHeader">
+    <div class="ga-header__inner">
+      <!-- Brand -->
+      <a class="ga-brand" href="/">
+        <img class="ga-brand__logo" src="{% static 'img/logo-gatilhauto.png' %}" alt="Gatilhauto">
+        <div class="ga-brand__txt">
+          <div class="ga-brand__title">GATILHAUTO</div>
+          <div class="ga-brand__sub">Stand Automóvel</div>
+        </div>
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class="ga-nav ga-nav--desktop" aria-label="Navegação principal">
+        <!-- VIATURAS -->
+        <div class="ga-nav-item ga-dropdown" data-dd>
+          <button class="ga-nav-link ga-dd-btn" type="button" aria-expanded="false">
+            <span class="ga-ico">
+              <!-- menu icon -->
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+            Viaturas
+            <span class="ga-caret" aria-hidden="true">▾</span>
+          </button>
+
+          <div class="ga-dd-panel" role="menu">
+            <a class="ga-dd-item" href="/?tipo=auto" role="menuitem">
+              <span class="ga-dd-ico">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M3 14l2-5a3 3 0 0 1 2.8-2h8.4A3 3 0 0 1 21 9l2 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M5 14h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M7 18a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM17 18a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" fill="currentColor"/>
+                </svg>
+              </span>
+              <span class="ga-dd-text">Automóveis</span>
+            </a>
+
+            <a class="ga-dd-item" href="/?tipo=comercial" role="menuitem">
+              <span class="ga-dd-ico">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M3 7h11v10H3z" stroke="currentColor" stroke-width="2" />
+                  <path d="M14 10h4l3 3v4h-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M7 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM18 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" fill="currentColor"/>
+                </svg>
+              </span>
+              <span class="ga-dd-text">Comerciais</span>
+            </a>
+
+            <a class="ga-dd-item" href="/?tipo=classico" role="menuitem">
+              <span class="ga-dd-ico">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M4 14l2-4a3 3 0 0 1 2.7-2h6.6A3 3 0 0 1 18 10l2 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M6 14h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M8 18a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM16 18a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" fill="currentColor"/>
+                  <path d="M6 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".6"/>
+                </svg>
+              </span>
+              <span class="ga-dd-text">Clássicos</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- PESQUISAR (scroll pro bloco de filtros) -->
+        <a class="ga-nav-link" href="#filtersForm">
+          <span class="ga-ico">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M16.5 16.5 21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </span>
+          Pesquisar
+        </a>
+
+        <!-- SERVIÇOS -->
+        <div class="ga-nav-item ga-dropdown" data-dd>
+          <button class="ga-nav-link ga-dd-btn" type="button" aria-expanded="false">
+            <span class="ga-ico">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 2l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L4.8 7.2l5-.7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            Serviços
+            <span class="ga-caret" aria-hidden="true">▾</span>
+          </button>
+
+          <div class="ga-dd-panel" role="menu">
+            <a class="ga-dd-item" href="/servicos/intermediacao-credito/" role="menuitem">
+              <span class="ga-dd-ico">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M4 8h16v10H4z" stroke="currentColor" stroke-width="2"/>
+                  <path d="M4 10h16" stroke="currentColor" stroke-width="2" opacity=".7"/>
+                  <path d="M7 15h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <span class="ga-dd-text">Intermediação de crédito</span>
+            </a>
+
+            <a class="ga-dd-item" href="/servicos/lavagens/" role="menuitem">
+              <span class="ga-dd-ico">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M7 10c1.5-2 3.5-3 5-3s3.5 1 5 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M6 11h12l-1 9H7l-1-9Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                  <path d="M9 14v3M12 14v3M15 14v3" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".8"/>
+                </svg>
+              </span>
+              <span class="ga-dd-text">Lavagens</span>
+            </a>
+          </div>
+        </div>
+
+        <a class="ga-nav-link" href="/sobre/">
+          <span class="ga-ico">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M4 20a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </span>
+          Sobre
+        </a>
+
+        <a class="ga-nav-link" href="/livro-de-reclamacoes/">
+          <span class="ga-ico">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M6 4h12v16H6z" stroke="currentColor" stroke-width="2"/>
+              <path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".8"/>
+            </svg>
+          </span>
+          Reclamações
+        </a>
+      </nav>
+
+      <!-- Mobile: burger -->
+      <button class="ga-burger" id="gaBurger" type="button" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="ga-drawer" id="gaDrawer" aria-hidden="true">
+      <div class="ga-drawer__backdrop" data-close></div>
+
+      <aside class="ga-drawer__panel" role="dialog" aria-label="Menu">
+        <div class="ga-drawer__top">
+          <div class="ga-drawer__title">Menu</div>
+          <button class="ga-drawer__close" type="button" data-close aria-label="Fechar">✕</button>
+        </div>
+
+        <div class="ga-drawer__content">
+          <details class="ga-acc">
+            <summary class="ga-acc__sum">Viaturas</summary>
+            <div class="ga-acc__body">
+              <a href="/?tipo=automoveis" class="ga-drawer__link">Automóveis</a>
+              <a href="/?tipo=comerciais" class="ga-drawer__link">Comerciais</a>
+              <a href="/?tipo=classicos" class="ga-drawer__link">Clássicos</a>
+            </div>
+          </details>
+
+          <a class="ga-drawer__link" href="#filtersForm">Pesquisar</a>
+
+          <details class="ga-acc">
+            <summary class="ga-acc__sum">Serviços</summary>
+            <div class="ga-acc__body">
+              <a href="/servicos/intermediacao-credito/" class="ga-drawer__link">Intermediação de crédito</a>
+              <a href="/servicos/lavagens/" class="ga-drawer__link">Lavagens</a>
+            </div>
+          </details>
+
+          <a class="ga-drawer__link" href="/sobre/">Sobre</a>
+          <a class="ga-drawer__link" href="/livro-de-reclamacoes/">Reclamações</a>
+        </div>
+      </aside>
+    </div>
+  </header>
+
+
+  <!-- FLOATING CONTACT (GATILHAUTO) -->
+  <div class="ga-contact" id="gaContact">
+    <div class="ga-contact__panel" id="gaContactPanel" aria-hidden="true">
+      <a class="ga-contact__item ga-contact__wa" href="https://wa.me/351913378940" target="_blank" rel="noopener">
+        <span class="ga-contact__icon">🟢</span>
+        <span class="ga-contact__label">WhatsApp</span>
+      </a>
+
+      <a class="ga-contact__item ga-contact__ms" href="https://m.me/SEU_USUARIO" target="_blank" rel="noopener">
+        <span class="ga-contact__icon">🔵</span>
+        <span class="ga-contact__label">Messenger</span>
+      </a>
+
+      <a class="ga-contact__item ga-contact__call" href="tel:+351913378940">
+        <span class="ga-contact__icon">📞</span>
+        <span class="ga-contact__label">Ligar</span>
+      </a>
+
+      <a class="ga-contact__item ga-contact__mail" href="mailto:contato@gatilhauto.pt">
+        <span class="ga-contact__icon">✉️</span>
+        <span class="ga-contact__label">Email</span>
+      </a>
+
+      <a class="ga-contact__item ga-contact__callme" href="#"
+        onclick="alert('Podemos implementar o formulário/Modal de ligação-me aqui.'); return false;">
+        <span class="ga-contact__icon">📲</span>
+        <span class="ga-contact__label">Liga-me</span>
+      </a>
+    </div>
+
+    <button class="ga-contact__fab" id="gaContactFab" type="button" aria-expanded="false" aria-controls="gaContactPanel">
+      <span class="ga-contact__fabicon" aria-hidden="true">💬</span>
+      <span class="ga-contact__fabtext">Fale agora</span>
+    </button>
+  </div>
+
+  {% block content %}{% endblock %}
+
+  <footer class="ga-footer">
+    <div class="ga-footer__inner">
+      <div class="ga-footer__grid">
+
+        <!-- Col 1: Marca + Social -->
+        <div class="ga-footer__brand">
+          <a class="ga-footer__logo" href="/">
+            <span class="ga-footer__logo-badge" aria-hidden="true">
+              <!-- opcional: use teu logo -->
+              <!-- <img src="{% static 'img/logo.png' %}" alt=""> -->
+              <!-- <span style="color: var(--ga-gold); font-weight:900; font-size:14px;">GA</span> -->
+              <img class="ga-brand__logo" src="{% static 'img/logo-gatilhauto.png' %}" alt="Gatilhauto">
+            </span>
+
+            <span class="ga-footer__brandtext">
+              <span class="ga-footer__brandname">GATILHAUTO</span>
+              <span class="ga-footer__brandsub">Stand Automóvel</span>
+            </span>
+          </a>
+
+          <div class="ga-footer__social" aria-label="Redes sociais">
+            <!-- Facebook -->
+            <a class="ga-social" href="https://www.facebook.com/profile.php?id=61565053268491" target="_blank" rel="noopener" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M14 9h3V6h-3c-2 0-3.5 1.3-3.5 3.7V12H8v3h2.5v6H14v-6h3l.5-3H14v-2c0-.7.2-1 .9-1Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              </svg>
+            </a>
+
+            <!-- Instagram -->
+            <a class="ga-social" href="https://www.instagram.com/gatilhautoo/" target="_blank" rel="noopener" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M7.5 2.8h9A4.7 4.7 0 0 1 21.2 7.5v9A4.7 4.7 0 0 1 16.5 21.2h-9A4.7 4.7 0 0 1 2.8 16.5v-9A4.7 4.7 0 0 1 7.5 2.8Z" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M12 16.2A4.2 4.2 0 1 0 12 7.8a4.2 4.2 0 0 0 0 8.4Z" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M17.3 6.8h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+            </a>
+
+            <!-- YouTube (layout apenas) -->
+            <a class="ga-social" href="#" aria-label="YouTube (em breve)" title="YouTube (em breve)">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M21 12s0-3.5-.5-5a3 3 0 0 0-2.1-2.1C16.9 4.4 12 4.4 12 4.4s-4.9 0-6.4.5A3 3 0 0 0 3.5 7C3 8.5 3 12 3 12s0 3.5.5 5a3 3 0 0 0 2.1 2.1c1.5.5 6.4.5 6.4.5s4.9 0 6.4-.5A3 3 0 0 0 20.5 17c.5-1.5.5-5 .5-5Z" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M10.2 9.5v5l4.6-2.5-4.6-2.5Z" fill="currentColor" opacity=".9"/>
+              </svg>
+            </a>
+
+            <!-- Messenger (layout apenas) -->
+            <a class="ga-social" href="#" aria-label="Messenger (em breve)" title="Messenger (em breve)">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 3C6.8 3 2.6 6.8 2.6 11.5c0 2.7 1.4 5 3.6 6.6V21l2.7-1.5c1 .3 2 .5 3.1.5 5.2 0 9.4-3.8 9.4-8.5S17.2 3 12 3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                <path d="M7.8 13.6 10.7 10.6l2.1 2 3.4-2.2-2.9 3-2.1-2-3.4 2.2Z" fill="currentColor" opacity=".9"/>
+              </svg>
+            </a>
+
+            <!-- WhatsApp (pode deixar o link real) -->
+            <a class="ga-social" href="https://wa.me/351913378940" target="_blank" rel="noopener" aria-label="WhatsApp">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M20.2 12a8.2 8.2 0 0 1-12.1 7.2L3.8 20.2l1-3.9A8.2 8.2 0 1 1 20.2 12Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                <path d="M9.3 8.8c.2-.4.3-.4.6-.4h.5c.2 0 .4.1.5.4l.7 1.6c.1.3.1.5 0 .7l-.3.4c-.1.2-.2.3 0 .6.3.6 1.3 1.8 2.7 2.4.2.1.4.1.6-.1l.5-.6c.2-.2.4-.3.7-.2l1.7.8c.3.1.4.3.4.5 0 .3-.1.8-.5 1.2-.4.4-1 .7-1.9.5-2.2-.4-4.6-2.8-5.3-3.8-.7-1-1.4-2.7-.6-4.1Z" fill="currentColor" opacity=".9"/>
+              </svg>
+            </a>
+          </div>
+
+          <div class="ga-footer__muted">
+            Canais oficiais para contacto e suporte.
+          </div>
+        </div>
+
+        <!-- Col 2: Contactos -->
+        <div>
+          <div class="ga-footer__title">Informação</div>
+
+          <div class="ga-footer__links">
+            <a href="https://www.livroreclamacoes.pt/Inicio/" target="_blank">• Livro de Reclamações</a>
+            <a href="{% url 'politica_privacidade' %}">• Política de Privacidade</a>
+            <a href="{% url 'politica_cookies' %}">• Política de Cookies</a>
+            <a href="{% url 'termos_condicoes' %}">• Termos e Condições</a>
+          </div>
+
+          <div class="ga-footer__muted" style="margin-top:10px;">
+            Consulte as políticas e documentação legal.
+          </div>
+        </div>
+        <!-- <div>
+          <div class="ga-footer__title">Contactos</div>
+
+          <div class="ga-contact">
+            <div class="ga-contact__item">
+              <span class="ga-contact__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M6.5 3.8h3L11 8.9l-2 1.7c1 2 2.6 3.6 4.6 4.6l1.7-2 5.1 1.5v3c0 1-1 2-2.1 2C10.7 20.2 3.8 13.3 3.8 5.9c0-1.1 1-2.1 2.7-2.1Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <div class="ga-contact__text">
+                <div class="ga-contact__label">Telefone</div>
+                <div class="ga-contact__value">913 378 940</div>
+                <div class="ga-contact__note">(Chamada para a rede móvel nacional)</div>
+              </div>
+            </div>
+
+            <div class="ga-contact__item">
+              <span class="ga-contact__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M7.5 4.5h9A2.5 2.5 0 0 1 19 7v10a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 5 17V7a2.5 2.5 0 0 1 2.5-2.5Z" stroke="currentColor" stroke-width="1.6"/>
+                  <path d="M8 8h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                  <path d="M8 12h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <div class="ga-contact__text">
+                <div class="ga-contact__label">Email</div>
+                <div class="ga-contact__value" style="font-size:15px;">gatilhauto@gmail.com</div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+
+        <!-- Col 3: Links -->
+        <div>
+          <div class="ga-footer__title">Mais para si</div>
+          <div class="ga-footer__links">
+            <a href="/">• Gatilhauto</a>
+            <a href="/">• Viaturas</a>
+            <a href="/sobre/">• Sobre</a>
+            <a href="/servicos/">• Intermediação de Crédito</a>
+            <a href="/servicos/">• Lavagens</a>
+          </div>
+        </div>
+
+        <!-- Col 4: Nós ligamos -->
+        <div class="ga-help">
+          <div class="ga-help__title">Precisa de Ajuda? Nós Ligamos!</div>
+
+          <form id="gaCallMeForm" class="ga-help__row">
+            <input
+              class="ga-help__input"
+              type="tel"
+              name="phone"
+              placeholder="Escreva aqui"
+              autocomplete="tel"
+              inputmode="tel"
+            />
+            <button class="ga-help__btn" type="submit">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6.5 3.8h3L11 8.9l-2 1.7c1 2 2.6 3.6 4.6 4.6l1.7-2 5.1 1.5v3c0 1-1 2-2.1 2C10.7 20.2 3.8 13.3 3.8 5.9c0-1.1 1-2.1 2.7-2.1Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              </svg>
+              Ligue-me
+            </button>
+          </form>
+
+          <label class="ga-help__terms">
+            <input id="gaTerms" type="checkbox" />
+            <span>Li e Aceito os <u>Termos de Utilização</u> e <u>Proteção de Dados</u></span>
+          </label>
+
+          <div class="ga-footer__muted" style="margin-top:10px;">
+            Ao enviar, abrimos o WhatsApp para combinar o contacto.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- <div class="ga-footer__bottom">
+      <div class="ga-footer__bottom-inner">
+        <div class="ga-footer__legal-left">
+          Gatilhauto Unipessoal, Lda | Copyright © 2026
+        </div>
+
+        <div class="ga-footer__legal-links">
+          <a href="/livro-de-reclamacoes/">LIVRO DE RECLAMAÇÕES</a>
+          <a href="/politica-privacidade/">POLÍTICA DE PRIVACIDADE</a>
+          <a href="/politica-cookies/">POLÍTICA DE COOKIES</a>
+          <a href="/termos/">TERMOS DE CONDIÇÕES</a>
+        </div>
+      </div>
+    </div> -->
+  </footer>
+
+<script>
+  (function(){
+    const form = document.getElementById('gaCallMeForm');
+    const terms = document.getElementById('gaTerms');
+    if(!form) return;
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+
+      if(terms && !terms.checked){
+        alert('Por favor, aceite os Termos de Utilização e Proteção de Dados.');
+        return;
+      }
+
+      const input = form.querySelector('input[name="phone"]');
+      const phone = (input?.value || '').trim();
+
+      // WhatsApp da empresa (PT): 351 + 917314106
+      const wa = '351913378940';
+      const msg = encodeURIComponent(
+        'Olá! Gostaria que me ligassem. O meu contacto é: ' + (phone || '[não informado]')
+      );
+
+      window.open('https://wa.me/' + wa + '?text=' + msg, '_blank', 'noopener');
+    });
+  })();
+</script>
+
+</body>
+<script>
+  (function () {
+    const root = document.getElementById("gaContact");
+    const fab = document.getElementById("gaContactFab");
+    const panel = document.getElementById("gaContactPanel");
+    if (!root || !fab || !panel) return;
+
+    function setOpen(isOpen) {
+      root.classList.toggle("is-open", isOpen);
+      fab.setAttribute("aria-expanded", String(isOpen));
+      panel.setAttribute("aria-hidden", String(!isOpen));
+    }
+
+    fab.addEventListener("click", () => {
+      const isOpen = root.classList.contains("is-open");
+      setOpen(!isOpen);
+    });
+
+    // Fecha clicando fora
+    document.addEventListener("click", (e) => {
+      if (!root.classList.contains("is-open")) return;
+      if (root.contains(e.target)) return;
+      setOpen(false);
+    });
+
+    // ESC fecha
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") setOpen(false);
+    });
+  })();
+</script>
+<script>
+  (function () {
+    // ========= SCROLL EFFECT (overlay -> glass) =========
+    const header = document.getElementById("gaHeader");
+    function onScroll(){
+      if (!header) return;
+      header.classList.toggle("is-scrolled", window.scrollY > 10);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    // ========= DROPDOWNS (click + esc + click fora) =========
+    const dropdowns = document.querySelectorAll("[data-dd]");
+    dropdowns.forEach(dd => {
+      const btn = dd.querySelector(".ga-dd-btn");
+      if (!btn) return;
+
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isOpen = dd.classList.contains("is-open");
+        dropdowns.forEach(d => {
+          d.classList.remove("is-open");
+          const b = d.querySelector(".ga-dd-btn");
+          if (b) b.setAttribute("aria-expanded", "false");
+        });
+
+        if (!isOpen) {
+          dd.classList.add("is-open");
+          btn.setAttribute("aria-expanded", "true");
+        }
+      });
+    });
+
+    document.addEventListener("click", () => {
+      dropdowns.forEach(d => {
+        d.classList.remove("is-open");
+        const b = d.querySelector(".ga-dd-btn");
+        if (b) b.setAttribute("aria-expanded", "false");
+      });
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        dropdowns.forEach(d => {
+          d.classList.remove("is-open");
+          const b = d.querySelector(".ga-dd-btn");
+          if (b) b.setAttribute("aria-expanded", "false");
+        });
+      }
+    });
+
+    // ========= MOBILE DRAWER =========
+    const burger = document.getElementById("gaBurger");
+    const drawer = document.getElementById("gaDrawer");
+    if (burger && drawer) {
+      const closers = drawer.querySelectorAll("[data-close]");
+
+      function openDrawer(){
+        drawer.classList.add("is-open");
+        drawer.setAttribute("aria-hidden", "false");
+        burger.setAttribute("aria-expanded", "true");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeDrawer(){
+        drawer.classList.remove("is-open");
+        drawer.setAttribute("aria-hidden", "true");
+        burger.setAttribute("aria-expanded", "false");
+        document.body.style.overflow = "";
+      }
+
+      burger.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (drawer.classList.contains("is-open")) closeDrawer();
+        else openDrawer();
+      });
+
+      closers.forEach(el => el.addEventListener("click", closeDrawer));
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeDrawer();
+      });
+
+      // fechar se clicar num link
+      drawer.querySelectorAll("a").forEach(a => {
+        a.addEventListener("click", () => closeDrawer());
+      });
+    }
+  })();
+</script>
+
+
+
+</html>

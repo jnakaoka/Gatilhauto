@@ -1,0 +1,221 @@
+@import "tailwindcss";
+
+/* ===== Tema Gatilhauto (fixo e garantido) ===== */
+:root{
+  --ga-bg: #4F5257; /* novo fundo */
+  --ga-card: #1F2329; /* cards mais escuros que o fundo */
+  --ga-border: rgba(255,255,255,.14);
+  --ga-text: #F4F5F7;
+  --ga-muted: rgba(255,255,255,.72);
+  --ga-gold: #D4AF37;
+}
+
+/* classes que NÃO dependem do Tailwind scan */
+.ga-bg { background: var(--ga-bg); }
+.ga-text { color: var(--ga-text); }
+.ga-card { background: var(--ga-card); }
+.ga-border { border-color: var(--ga-border); }
+.ga-muted { color: var(--ga-muted); }
+.ga-gold { color: var(--ga-gold); }
+.ga-gold-bg { background: var(--ga-gold); color: #000; }
+
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-decoration:none;
+}
+
+.brand__logo{
+  height:42px;      /* <<< controla aqui */
+  width:42px;       /* mantém “quadrado” */
+  object-fit:contain;
+  border-radius:12px; /* fica premium */
+  /* se quiser “badge”: */
+  /* background: rgba(255,255,255,.04);
+     border:1px solid rgba(255,255,255,.10);
+     padding:6px; */
+}
+
+.brand__title{
+  color:#fff;
+  font-weight:700;
+  letter-spacing:.06em;
+  font-size:14px;
+  line-height:1.1;
+}
+
+.brand__subtitle{
+  color:rgba(255,255,255,.60);
+  font-size:12px;
+  margin-top:2px;
+}
+
+.filters-wrap{
+  padding: 30px 0 10px;
+}
+
+.filters-title{
+  color:#fff;
+  text-align:center;
+  font-size:28px;
+  font-weight:800;
+  margin: 0 0 16px;
+}
+
+.filters{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.filters-pill{
+  display:grid;
+  grid-template-columns: 1.2fr 1.2fr 1.2fr .9fr .9fr 1fr auto; /* campos + ações */
+  gap: 0;
+  align-items:stretch;
+
+  border-radius: 999px;
+  padding: 14px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 18px 45px rgba(0,0,0,.35);
+}
+
+.f-item{
+  padding: 6px 16px;
+  position: relative;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-width: 0;
+}
+
+/* divisórias verticais suaves */
+.f-item::after{
+  content:"";
+  position:absolute;
+  right:0;
+  top:18px;
+  bottom:18px;
+  width:1px;
+  background: rgba(255,255,255,.10);
+}
+.f-item:last-of-type::after{ display:none; }
+
+.f-label{
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(120, 200, 255, .55); /* parecido com o azul do exemplo */
+  margin-bottom: 6px;
+}
+
+.f-control{
+  height: 42px;
+  border-radius: 14px;
+  background: rgba(0,0,0,.20);
+  border: 1px solid rgba(255,255,255,.10);
+  color: rgba(255,255,255,.92);
+  padding: 0 12px;
+  outline: none;
+  width: 100%;
+}
+
+.f-control:focus{
+  border-color: rgba(214,178,58,.55);
+  box-shadow: 0 0 0 4px rgba(214,178,58,.12);
+}
+
+.f-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding-left: 14px;
+}
+
+.btn-filter{
+  height: 46px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 0;
+  background: #D6B23A;
+  color: #111;
+  font-weight: 800;
+  cursor: pointer;
+  transition: .15s ease;
+}
+
+.btn-filter:hover{ filter: brightness(1.08); }
+
+.btn-clear{
+  height: 46px;
+  padding: 0 14px;
+  border-radius: 999px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  border: 1px solid rgba(255,255,255,.14);
+  color: rgba(255,255,255,.80);
+  transition: .15s ease;
+}
+.btn-clear:hover{ background: rgba(255,255,255,.08); }
+
+.filters-footer{
+  display:flex;
+  justify-content:center;
+  margin-top: 14px;
+}
+
+.btn-detail{
+  height: 38px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.18);
+  color: rgba(255,255,255,.86);
+  font-weight: 700;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.btn-detail__icon{
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border: 1px solid rgba(255,255,255,.16);
+}
+
+/* Responsivo */
+@media (max-width: 1100px){
+  .filters-pill{
+    grid-template-columns: 1fr 1fr 1fr;
+    border-radius: 28px;
+    gap: 10px;
+  }
+  .f-item::after{ display:none; }
+  .f-actions{
+    grid-column: 1 / -1;
+    padding-left: 0;
+    justify-content:flex-end;
+  }
+}
+
+@media (max-width: 640px){
+  .filters-pill{
+    grid-template-columns: 1fr;
+    border-radius: 22px;
+  }
+  .f-actions{
+    justify-content:space-between;
+  }
+  .btn-filter{ flex:1; }
+}
