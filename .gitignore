@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Virtualenv
+venv/
+env/
+.venv/
+ENV/
+
+# Django
+db.sqlite3
+*.log
+media/
+staticfiles/
+
+# Environment variables
+.env
+.env.*
+
+# Migrations cache
+**/__pycache__/
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node (se usar futuramente)
+node_modules/
+
+# Build
+dist/
+build/
+*.egg-info/
+
+# Coverage / tests
+.coverage
+htmlcov/
+
+# PyCharm
+.idea/
+
+# Mac
+.AppleDouble
+.LSOverride
