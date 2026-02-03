@@ -1,0 +1,92 @@
+{% extends "carros/base.html" %}
+{% load static %}
+
+{% block title %}Serviços | Gatilhauto{% endblock %}
+
+{% block content %}
+<main class="ga-page">
+  <section class="ga-section ga-section--tight">
+    <div class="ga-container">
+      <header class="ga-section__head">
+        <h1 class="ga-h1">Serviços</h1>
+        <p class="ga-lead">
+          Agende online em poucos segundos. Para <b>Polimento</b>, o agendamento é para
+          <b>avaliação e orçamento</b>.
+        </p>
+      </header>
+
+      <div class="ga-services">
+        <!-- Lavagem simples -->
+        <article class="ga-card ga-service">
+          <div class="ga-service__top">
+            <div class="ga-service__icon" aria-hidden="true">🧼</div>
+            <div class="ga-service__meta">
+              <h2 class="ga-service__title">Lavagem simples</h2>
+            </div>
+          </div>
+
+          <p class="ga-service__desc">
+            Limpeza exterior e interior básica do veículo.
+          </p>
+        </article>
+
+        <!-- Lavagem de estofos -->
+        <article class="ga-card ga-service">
+          <div class="ga-service__top">
+            <div class="ga-service__icon" aria-hidden="true">🪑</div>
+            <div class="ga-service__meta">
+              <h2 class="ga-service__title">Lavagem de estofos</h2>
+            </div>
+          </div>
+
+          <p class="ga-service__desc">
+            Limpeza profunda dos estofos para remoção de manchas e odores.
+          </p>
+        </article>
+
+        <!-- Polimento (avaliação) -->
+        <article class="ga-card ga-service ga-service--highlight">
+          <div class="ga-service__top">
+            <div class="ga-service__icon" aria-hidden="true">✨</div>
+            <div class="ga-service__meta">
+              <h2 class="ga-service__title">Polimento</h2>
+              <div class="ga-service__badge ga-service__badge--warn">Avaliação</div>
+            </div>
+          </div>
+
+          <p class="ga-service__desc">
+            Avaliação do estado da pintura para orçamento e planeamento do serviço.
+          </p>
+
+          <div class="ga-service__note">
+            * O serviço completo será combinado após análise presencial.
+          </div>
+        </article>
+
+        <!-- Restauro de faróis -->
+        <article class="ga-card ga-service">
+          <div class="ga-service__top">
+            <div class="ga-service__icon" aria-hidden="true">💡</div>
+            <div class="ga-service__meta">
+              <h2 class="ga-service__title">Restauro de faróis</h2>
+            </div>
+          </div>
+
+          <p class="ga-service__desc">
+            Recuperação da transparência e proteção dos faróis.
+          </p>
+        </article>
+      </div>
+
+      {# Botão único para agendar qualquer serviço #}
+      <div class="ga-actions" style="margin-top: 18px; display: flex; justify-content: center;">
+        <a class="ga-btn ga-btn--primary"
+           href="{{ AGENDAMENTO_URL }}"
+           target="_blank" rel="noopener">
+          Agendar
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

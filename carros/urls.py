@@ -11,6 +11,8 @@ urlpatterns = [
     path("privacidade/", views.politica_privacidade, name="politica_privacidade"),
     path("cookies/", views.politica_cookies, name="politica_cookies"),
     path("termos/", views.termos_condicoes, name="termos_condicoes"),
+    path("servicos/", views.servicos, name="servicos"),
+    path("api/callme/", views.callme, name="callme"),
     # path("admin/modelos-por-marca/", views.modelos_por_marca, name="modelos_por_marca"),
     # path("viaturas/<int:pk>/", views.detalhe_carro, name="detalhe_carro"),
 ]

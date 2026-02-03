@@ -1000,6 +1000,37 @@
   transition: transform .15s ease;
 }
 
+.ga-adv-toggle{
+  width: 100%;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  color: #fff;
+  font-weight: 800;
+}
+
+.ga-adv-caret{
+  opacity: .8;
+  transition: transform .2s ease;
+}
+
+.ga-adv-toggle[aria-expanded="true"] .ga-adv-caret{
+  transform: rotate(180deg);
+}
+
+.ga-adv-panel{
+  margin-top: 10px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  padding: 12px;
+}
+
 /* =========================================================
    PILL (Pesquisa rápida)
    ========================================================= */
@@ -1590,7 +1621,7 @@
   border-radius: 999px;
   border: 0;
   cursor: pointer;
-  background: #D6B23A;               /* azul escuro */
+  background: #D6B23A;             
   box-shadow: 0 16px 40px rgba(0,0,0,.45);
   color: #111;
 }
@@ -1614,11 +1645,58 @@
   font-size: 13px;
 }
 
+/* ===== Mobile: reduz FAB e remove texto ===== */
+@media (max-width: 520px){
+  .ga-contact{ right: 12px; bottom: 12px; }
+
+  /* o problema estava aqui: o FAB não era alterado */
+  .ga-contact__fab{
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border-radius: 999px;
+    justify-content: center;
+    gap: 0;                 /* remove espaço do texto */
+    box-shadow: 0 12px 28px rgba(0,0,0,.40); /* um pouco mais “leve” */
+  }
+
+  .ga-contact__fabicon{
+    width: 34px;
+    height: 34px;
+  }
+
+  .ga-contact__fabtext{
+    display: none;          /* some com o texto no mobile */
+  }
+
+  /* mantém seus itens do painel mais compactos */
+  .ga-contact__item{ width: 155px; }
+}
+
+@media (max-width: 520px){
+  .ga-contact{ bottom: 72px; } /* ajusta conforme o teu layout */
+}
+
+@media (max-width: 520px){
+  .ga-contact__fabtext{ display: none; }
+
+  .ga-contact.is-open .ga-contact__fab{
+    width: auto;
+    padding: 0 14px;
+    gap: 8px;
+  }
+
+  .ga-contact.is-open .ga-contact__fabtext{
+    display: inline;
+  }
+}
+
 /* mobile: encurta labels */
 @media (max-width: 520px){
   .ga-contact{ right: 12px; bottom: 12px; }
   .ga-contact__item{ width: 155px; }
 }
+
 
 /* =========================
    HEADER PREMIUM (overlay + scroll)
@@ -1656,20 +1734,25 @@
 
 /* Brand */
 .ga-brand{
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-decoration:none;
+  min-width: 0;
+  width: 100%;
 }
 
 .ga-brand__logo{
   width: 200px;
   height: 120px;
-  border-radius: 12px;
   object-fit: contain;
-  background: rgba(255,255,255,.04);
-  border: 1px solid rgba(255,255,255,.10);
-  padding: 6px;
+  flex-shrink: 0; /* ✅ impede o logo de encolher */
+}
+
+.ga-brand__txt{
+  min-width: 0;
+  width: 100%;
+  text-align: center;
 }
 
 .ga-brand__title{
@@ -1678,6 +1761,7 @@
   letter-spacing: .06em;
   font-size: 45px;
   line-height: 1.05;
+  font-size: 55px;
 }
 
 .ga-brand__sub{
@@ -2242,8 +2326,8 @@
 
 .ga-footer__grid{
   display: grid;
-  grid-template-columns: 1.2fr 1fr 1fr 1.4fr;
-  gap: 26px;
+  grid-template-columns: 1.35fr 1.1fr 1.1fr 0.7fr;
+  gap: 24px;
   align-items: start;
 }
 
@@ -2333,9 +2417,9 @@
 .ga-footer__title{
   color:#fff;
   font-weight: 900;
-  font-size: 14px;
+  font-size: 15px;
   letter-spacing: .03em;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .ga-footer__muted{
@@ -2409,6 +2493,8 @@
   text-decoration: none;
   font-weight: 700;
   transition: color .15s ease;
+  font-size: 14px;
+  line-height: 1.75;
 }
 
 .ga-footer__links a:hover{
@@ -2417,33 +2503,33 @@
 
 /* Box “Nós ligamos” */
 .ga-help{
-  border-radius: 22px;
+  border-radius: 20px;
   background: rgba(255,255,255,.04);
   border: 1px solid rgba(255,255,255,.10);
-  padding: 16px;
+  padding: 14px;
 }
 
 .ga-help__title{
   color: rgba(120,200,255,.70);
   font-weight: 900;
-  font-size: 18px;
+  font-size: 15px;
   margin-bottom: 12px;
 }
 
 .ga-help__row{
-  display:flex;
-  gap: 10px;
-  align-items:center;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Nome | Telefone */
+  gap: 8px;
 }
 
 .ga-help__input{
-  height: 46px;
-  flex: 1;
+  height: 42px;                /* era 46 */
+  padding: 0 14px;             /* era 0 16 */
+  font-size: 13.5px;
   border-radius: 999px;
   border: 1px solid rgba(255,255,255,.10);
   background: rgba(0,0,0,.22);
   color: rgba(255,255,255,.92);
-  padding: 0 16px;
   outline: none;
 }
 
@@ -2453,19 +2539,22 @@
 }
 
 .ga-help__btn{
-  height: 46px;
+  grid-column: 1 / -1; /* força nova linha */
+  height: 42px;
+  margin-top: 6px;
   padding: 0 16px;
   border-radius: 999px;
   border: 0;
   background: rgba(40, 90, 150, .85);
   color: #fff;
   font-weight: 900;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
+  font-size: 13.5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 10px;
   transition: filter .15s ease, transform .15s ease;
-  white-space: nowrap;
 }
 
 .ga-help__btn:hover{
@@ -2479,12 +2568,12 @@
 }
 
 .ga-help__terms{
-  margin-top: 12px;
+  margin-top: 10px;            /* era 12 */
+  font-size: 11.5px;             /* era 12 */
+  gap: 8px;
   display:flex;
-  gap: 10px;
   align-items:flex-start;
   color: rgba(255,255,255,.72);
-  font-size: 12px;
 }
 
 .ga-help__terms input{
@@ -2546,13 +2635,11 @@
   }
 
   .ga-help__row{
-    flex-direction: column;
-    align-items: stretch;
+    grid-template-columns: 1fr; /* empilha tudo */
   }
 
   .ga-help__btn{
-    width: 100%;
-    justify-content: center;
+     margin-top: 8px;
   }
 
   .ga-footer__bottom-inner{
@@ -2980,5 +3067,242 @@
   .ga-legal-body{ padding: 16px 16px 22px; }
   .ga-legal-head{ padding: 18px 16px 12px; }
 }
+
+
+/* Desktop (padrão) */
+.fale-agora {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 9999;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 14px 18px;
+  border-radius: 999px;
+  font-size: 16px;
+}
+
+#callMeSection {
+  scroll-margin-top: 120px; /* ajuste conforme altura do header */
+}
+
+/* Mobile: versão reduzida */
+@media (max-width: 768px) {
+  .fale-agora {
+    right: 14px;
+    bottom: 14px;
+
+    padding: 10px 12px;
+    font-size: 13px;
+    gap: 8px;
+  }
+
+  /* Se tiver ícone, reduz também */
+  .fale-agora svg,
+  .fale-agora img {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+
+/* ===== MOBILE LAYOUT FIX (safe) ===== */
+@media (max-width: 520px){
+
+  /* 1) Evita qualquer overflow horizontal escondido */
+  html, body { overflow-x: hidden; }
+
+  /* 2) Se você tiver algum container centralizador, a ideia é dar respiro lateral */
+  .ga-header__inner,
+  .ga-hero__inner,
+  .ga-container,
+  main {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  /* 3) Header mais compacto */
+  .ga-header__inner{
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .ga-brand__logo{
+    width: 130px;      /* ✅ maior no mobile sem estourar */
+    height: 56px;      /* ✅ altura realista pro header */
+  }
+
+  .ga-brand__title{
+    font-size: 18px;   /* ✅ 45px no mobile quebra tudo */
+    letter-spacing: .04em;
+  }
+
+  .ga-brand__sub{
+    font-size: 11px;
+  }
+
+  /* 4) Se o hero estiver estreito, força ele a usar a largura disponível */
+  .ga-hero,
+  .ga-hero__media,
+  .ga-hero__content{
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* 5) Se existir algum card de filtros com width fixa */
+  .ga-filters,
+  .ga-filters__card,
+  #filtersForm{
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 992px){
+  .ga-brand__logo{
+    width: 180px;
+    height: 80px;
+  }
+
+  .ga-brand__title{
+    font-size: 55px;
+  }
+}
+
+/* ===== Services page (Gatilhauto) ===== */
+.ga-page { padding-top: 24px; }
+
+.ga-container{
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: 0 18px;
+}
+
+.ga-section { padding: 28px 0 44px; }
+.ga-section--tight { padding-top: 18px; }
+
+.ga-section__head { margin-bottom: 18px; }
+.ga-h1 { font-size: 28px; margin: 0 0 8px; }
+.ga-lead { margin: 0; opacity: .9; max-width: 70ch; }
+
+.ga-services{
+  display: grid;
+  grid-template-columns: 1fr; /* mobile */
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.ga-card{
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 14px 40px rgba(0,0,0,.25);
+}
+
+.ga-service__top{
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.ga-service__icon{
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: rgba(214,178,58,.18);
+  border: 1px solid rgba(214,178,58,.22);
+  font-size: 22px;
+  flex: 0 0 auto;
+}
+
+.ga-service__meta{
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+}
+
+.ga-service__title{ margin: 0; font-size: 18px; }
+.ga-service__desc{ margin: 8px 0 14px; opacity: .92; line-height: 1.35; }
+
+.ga-service__badge{
+  font-size: 12px;
+  font-weight: 800;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.14);
+  white-space: nowrap;
+  opacity: .95;
+}
+
+.ga-service__badge--warn{
+  background: rgba(214,178,58,.16);
+  border-color: rgba(214,178,58,.22);
+}
+
+.ga-service--highlight{
+  border-color: rgba(214,178,58,.35);
+  background: rgba(214,178,58,.10);
+}
+
+.ga-service__note{
+  margin-top: 10px;
+  font-size: 12px;
+  opacity: .9;
+}
+
+.ga-btn{
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 44px;
+  border-radius: 12px;
+  font-weight: 900;
+  letter-spacing: .02em;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ga-btn--primary{
+  background: #D6B23A;
+  color: #111;
+}
+
+.ga-btn--secondary{
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.16);
+  color: #fff;
+}
+
+.ga-note{
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  opacity: .95;
+}
+
+/* Tablet: 2 colunas */
+@media (min-width: 700px){
+  .ga-services{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Desktop: 4 colunas */
+@media (min-width: 1100px){
+  .ga-services{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
 
 

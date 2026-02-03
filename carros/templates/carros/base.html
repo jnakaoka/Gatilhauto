@@ -19,10 +19,10 @@
     <div class="ga-header__inner">
       <!-- Brand -->
       <a class="ga-brand" href="/">
-        <img class="ga-brand__logo" src="{% static 'img/logo-gatilhauto.png' %}" alt="Gatilhauto">
+        <img class="ga-brand__logo" src="{% static 'img/logo-gatilhauto-transparente - 3.png' %}" alt="Gatilhauto">
         <div class="ga-brand__txt">
           <div class="ga-brand__title">GATILHAUTO</div>
-          <div class="ga-brand__sub">Stand Automóvel</div>
+          <div class="ga-brand__sub">Stand de Automóveis</div>
         </div>
       </a>
 
@@ -90,7 +90,10 @@
         </a>
 
         <!-- SERVIÇOS -->
-        <div class="ga-nav-item ga-dropdown" data-dd>
+        <a class="ga-nav-link" href="/servicos/">
+          Serviços
+        </a>
+        <!-- <div class="ga-nav-item ga-dropdown" data-dd>
           <button class="ga-nav-link ga-dd-btn" type="button" aria-expanded="false">
             <span class="ga-ico">
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -124,7 +127,7 @@
               <span class="ga-dd-text">Lavagens</span>
             </a>
           </div>
-        </div>
+        </div> -->
 
         <a class="ga-nav-link" href="/sobre/">
           <span class="ga-ico">
@@ -136,7 +139,7 @@
           Sobre
         </a>
 
-        <a class="ga-nav-link" href="/livro-de-reclamacoes/">
+        <!-- <a class="ga-nav-link" href="/livro-de-reclamacoes/">
           <span class="ga-ico">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M6 4h12v16H6z" stroke="currentColor" stroke-width="2"/>
@@ -144,7 +147,7 @@
             </svg>
           </span>
           Reclamações
-        </a>
+        </a> -->
       </nav>
 
       <!-- Mobile: burger -->
@@ -167,24 +170,26 @@
           <details class="ga-acc">
             <summary class="ga-acc__sum">Viaturas</summary>
             <div class="ga-acc__body">
-              <a href="/?tipo=automoveis" class="ga-drawer__link">Automóveis</a>
-              <a href="/?tipo=comerciais" class="ga-drawer__link">Comerciais</a>
-              <a href="/?tipo=classicos" class="ga-drawer__link">Clássicos</a>
+              <a href="/?tipo=auto" class="ga-drawer__link">Automóveis</a>
+              <a href="/?tipo=comercial" class="ga-drawer__link">Comerciais</a>
+              <a href="/?tipo=classico" class="ga-drawer__link">Clássicos</a>
             </div>
           </details>
 
           <a class="ga-drawer__link" href="#filtersForm">Pesquisar</a>
 
-          <details class="ga-acc">
+          <a class="ga-drawer__link" href="/servicos/">Serviços</a>
+
+          <!-- <details class="ga-acc">
             <summary class="ga-acc__sum">Serviços</summary>
             <div class="ga-acc__body">
               <a href="/servicos/intermediacao-credito/" class="ga-drawer__link">Intermediação de crédito</a>
               <a href="/servicos/lavagens/" class="ga-drawer__link">Lavagens</a>
             </div>
-          </details>
+          </details> -->
 
           <a class="ga-drawer__link" href="/sobre/">Sobre</a>
-          <a class="ga-drawer__link" href="/livro-de-reclamacoes/">Reclamações</a>
+          <!-- <a class="ga-drawer__link" href="/livro-de-reclamacoes/">Reclamações</a> -->
         </div>
       </aside>
     </div>
@@ -214,8 +219,7 @@
         <span class="ga-contact__label">Email</span>
       </a>
 
-      <a class="ga-contact__item ga-contact__callme" href="#"
-        onclick="alert('Podemos implementar o formulário/Modal de ligação-me aqui.'); return false;">
+      <a class="ga-contact__item ga-contact__callme" href="#callMeSection">
         <span class="ga-contact__icon">📲</span>
         <span class="ga-contact__label">Liga-me</span>
       </a>
@@ -267,12 +271,12 @@
             </a>
 
             <!-- YouTube (layout apenas) -->
-            <a class="ga-social" href="#" aria-label="YouTube (em breve)" title="YouTube (em breve)">
+            <!-- <a class="ga-social" href="#" aria-label="YouTube (em breve)" title="YouTube (em breve)">
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M21 12s0-3.5-.5-5a3 3 0 0 0-2.1-2.1C16.9 4.4 12 4.4 12 4.4s-4.9 0-6.4.5A3 3 0 0 0 3.5 7C3 8.5 3 12 3 12s0 3.5.5 5a3 3 0 0 0 2.1 2.1c1.5.5 6.4.5 6.4.5s4.9 0 6.4-.5A3 3 0 0 0 20.5 17c.5-1.5.5-5 .5-5Z" stroke="currentColor" stroke-width="1.6"/>
                 <path d="M10.2 9.5v5l4.6-2.5-4.6-2.5Z" fill="currentColor" opacity=".9"/>
               </svg>
-            </a>
+            </a> -->
 
             <!-- Messenger (layout apenas) -->
             <a class="ga-social" href="#" aria-label="Messenger (em breve)" title="Messenger (em breve)">
@@ -351,13 +355,58 @@
             <a href="/">• Gatilhauto</a>
             <a href="/">• Viaturas</a>
             <a href="/sobre/">• Sobre</a>
-            <a href="/servicos/">• Intermediação de Crédito</a>
-            <a href="/servicos/">• Lavagens</a>
+            <a href="/servicos/">• Serviços</a>
           </div>
         </div>
 
         <!-- Col 4: Nós ligamos -->
-        <div class="ga-help">
+        <div class="ga-help" id="callMeSection">
+          <div class="ga-help__title">Precisa de Ajuda? Nós Ligamos!</div>
+
+          <form id="gaCallMeForm" class="ga-help__row" method="post" action="{% url 'callme' %}">
+            {% csrf_token %}
+
+            <input
+              class="ga-help__input"
+              type="text"
+              name="nome"
+              placeholder="Seu nome (opcional)"
+              autocomplete="name"
+            />
+
+            <input
+              class="ga-help__input"
+              type="tel"
+              name="phone"
+              placeholder="Telefone"
+              autocomplete="tel"
+              inputmode="tel"
+              required
+            />
+
+            <button class="ga-help__btn" type="submit">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6.5 3.8h3L11 8.9l-2 1.7c1 2 2.6 3.6 4.6 4.6l1.7-2 5.1 1.5v3c0 1-1 2-2.1 2C10.7 20.2 3.8 13.3 3.8 5.9c0-1.1 1-2.1 2.7-2.1Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              </svg>
+              Ligue-me
+            </button>
+          </form>
+
+          <label class="ga-help__terms">
+            <input id="gaTerms" type="checkbox" required />
+            <span>
+              Li e Aceito os
+              <a href="{% url 'termos_condicoes' %}"><u>Termos de Utilização</u></a>
+              e
+              <a href="{% url 'politica_privacidade' %}"><u>Proteção de Dados</u></a>
+            </span>
+          </label>
+
+          <div id="gaCallMeStatus" class="ga-footer__muted" style="margin-top:10px; display:none;">
+            Pedido enviado! Entraremos em contacto em breve.
+          </div>
+        </div> 
+        <!-- <div class="ga-help">
           <div class="ga-help__title">Precisa de Ajuda? Nós Ligamos!</div>
 
           <form id="gaCallMeForm" class="ga-help__row">
@@ -385,7 +434,7 @@
           <div class="ga-footer__muted" style="margin-top:10px;">
             Ao enviar, abrimos o WhatsApp para combinar o contacto.
           </div>
-        </div>
+        </div> -->
 
       </div>
     </div>
@@ -435,6 +484,7 @@
 </script>
 
 </body>
+
 <script>
   (function () {
     const root = document.getElementById("gaContact");
@@ -463,6 +513,74 @@
     // ESC fecha
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") setOpen(false);
+    });
+  })();
+</script>
+
+<script>
+  (function(){
+    const form = document.getElementById('gaCallMeForm');
+    const terms = document.getElementById('gaTerms');
+    const statusEl = document.getElementById('gaCallMeStatus');
+    if(!form) return;
+
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+      return null;
+    }
+
+    form.addEventListener('submit', async function(e){
+      e.preventDefault();
+
+      if(terms && !terms.checked){
+        alert('Por favor, aceite os Termos de Utilização e Proteção de Dados.');
+        return;
+      }
+
+      const nome = (form.querySelector('input[name="nome"]')?.value || '').trim();
+      const phone = (form.querySelector('input[name="phone"]')?.value || '').trim();
+
+      if(!phone){
+        alert('Por favor, informe o seu telefone.');
+        return;
+      }
+
+      const csrf = getCookie('csrftoken');
+      const payload = { nome, phone, page: window.location.pathname };
+
+      try{
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrf || '',
+          },
+          body: JSON.stringify(payload),
+          credentials: 'same-origin',
+        });
+
+        if(!res.ok){
+          const txt = await res.text().catch(()=> '');
+          console.error('CallMe error:', res.status, txt);
+          alert('Não foi possível enviar agora. Tente novamente em instantes.');
+          return;
+        }
+
+        // sucesso
+        form.reset();
+        if(statusEl){
+          statusEl.style.display = 'block';
+          setTimeout(() => (statusEl.style.display = 'none'), 5000);
+        } else {
+          alert('Pedido enviado! Entraremos em contacto em breve.');
+        }
+
+      }catch(err){
+        console.error(err);
+        alert('Falha de ligação. Verifique a internet e tente novamente.');
+      }
     });
   })();
 </script>
@@ -557,6 +675,32 @@
   })();
 </script>
 
+<script>
+  (function () {
+    const link = document.querySelector('.ga-contact__callme');
+    const section = document.getElementById('callMeSection');
+    const phoneInput = document.querySelector('#gaCallMeForm input[name="phone"]');
+    const contactRoot = document.getElementById('gaContact');
 
+    if (!link || !section) return;
+
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      // fecha o painel flutuante
+      if (contactRoot) {
+        contactRoot.classList.remove('is-open');
+      }
+
+      // scroll suave até o formulário
+      section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      // foca no campo telefone após o scroll
+      setTimeout(() => {
+        if (phoneInput) phoneInput.focus();
+      }, 600);
+    });
+  })();
+</script>
 
 </html>

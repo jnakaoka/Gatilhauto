@@ -1,9 +1,18 @@
+import json
+import re
+from django.http import JsonResponse, HttpResponseBadRequest
 from django.core.paginator import Paginator
 from django.db.models import Prefetch
 from django.shortcuts import render, get_object_or_404
 from .models import Carro, ImagemCarro, Marca, Modelo
 from django.http import JsonResponse
 from .models import Modelo
+from django.conf import settings
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_protect
+from django.core.mail import send_mail
+
+PHONE_RE = re.compile(r"^[0-9\s()+-]{7,20}$")
 
 def home(request):
     carros = Carro.objects.filter(ativo=True)
@@ -132,3 +141,42 @@ def politica_cookies(request):
 
 def termos_condicoes(request):
     return render(request, "carros/termos_condicoes.html")
+
+def servicos(request):
+    return render(request, "carros/servicos.html", {
+        "AGENDAMENTO_URL": getattr(settings, "GA_AGENDAMENTO_URL", ""),
+    })
+
+@require_POST
+@csrf_protect
+def callme(request):
+    try:
+        data = json.loads(request.body.decode("utf-8"))
+    except Exception:
+        return HttpResponseBadRequest("Invalid JSON")
+
+    nome = (data.get("nome") or "").strip()
+    phone = (data.get("phone") or "").strip()
+    page = (data.get("page") or "").strip()
+
+    if not phone or not PHONE_RE.match(phone):
+        return JsonResponse({"ok": False, "error": "Telefone inválido"}, status=400)
+
+    # ✅ Aqui você escolhe o que fazer:
+    # 1) Enviar email (recomendado e rápido)
+    subject = "Gatilhauto - Pedido de contacto (Ligue-me)"
+    message = f"Novo pedido de contacto:\n\nNome: {nome or '-'}\nTelefone: {phone}\nPágina: {page or '-'}\n"
+    to_email = getattr(settings, "CALLME_TO_EMAIL", None) or getattr(settings, "DEFAULT_TO_EMAIL", None)
+
+    if to_email:
+        send_mail(
+            subject=subject,
+            message=message,
+            from_email=getattr(settings, "DEFAULT_FROM_EMAIL", None),
+            recipient_list=[to_email],
+            fail_silently=True,
+        )
+
+    # (Opcional) 2) Salvar em DB depois, quando quiser (CallMeRequest model)
+
+    return JsonResponse({"ok": True})
