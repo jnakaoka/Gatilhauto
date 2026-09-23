@@ -27,7 +27,7 @@
       </div> -->
 
       <!-- <a
-        href="https://wa.me/351000000000"
+        href="https://wa.me/{{ CONTACT_PHONE_E164 }}"
         class="ga-hero-cta"
       >
         Contactar no WhatsApp
@@ -69,7 +69,7 @@
       </p>
     </div>
 
-    <a href="https://wa.me/351000000000" class="inline-flex items-center justify-center px-5 py-3 rounded-xl bg-[#D4AF37] text-black font-bold hover:opacity-90 transition">
+    <a href="https://wa.me/{{ CONTACT_PHONE_E164 }}" class="inline-flex items-center justify-center px-5 py-3 rounded-xl bg-[#D4AF37] text-black font-bold hover:opacity-90 transition">
       Contactar no WhatsApp
     </a>
   </div> -->
@@ -83,7 +83,7 @@
 
     <a
       target="_blank"
-      href="https://wa.me/351000000000"
+      href="https://wa.me/{{ CONTACT_PHONE_E164 }}"
       class="inline-flex h-11 items-center justify-center rounded-xl bg-[#D6B23A] px-5 font-semibold text-black hover:brightness-110 transition"
     >
       Contactar no WhatsApp
@@ -314,7 +314,7 @@
           {% with carro.imagens.all|first as img %}
             {% if img %}
               <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
-              <img src="{{ img.imagem.url }}" alt="{{ carro.titulo }}" class="w-full h-full object-cover group-hover:scale-[1.02] transition">
+              <img src="{{ img.imagem.url }}" alt="{{ carro.titulo }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-[1.02] transition">
             {% else %}
               <div class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
                 Sem imagem

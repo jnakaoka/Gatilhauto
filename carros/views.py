@@ -1,16 +1,20 @@
 import json
+import logging
 import re
+from urllib.parse import quote
+
+from django.conf import settings
+from django.core.mail import send_mail
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.core.paginator import Paginator
 from django.db.models import Prefetch
 from django.shortcuts import render, get_object_or_404
 from .models import Carro, ImagemCarro, Marca, Modelo
-from django.http import JsonResponse
-from .models import Modelo
-from django.conf import settings
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_protect
-from django.core.mail import send_mail
+
+
+logger = logging.getLogger(__name__)
 
 PHONE_RE = re.compile(r"^[0-9\s()+-]{7,20}$")
 
@@ -108,10 +112,18 @@ def detalhe_carro(request, pk):
     carro = get_object_or_404(Carro, id=pk, ativo=True)
     imagens = carro.imagens.all().order_by('-destaque', 'id')
     imagem_capa = imagens.first()
+    whatsapp_message = (
+        f"Olá, tenho interesse no {carro.marca.nome} {carro.modelo.nome} "
+        f"{carro.ano} anunciado no site Gatilhauto."
+    )
     return render(request, "carros/detalhe_carro.html", {
         "carro": carro,
         "imagens": imagens,
         "imagem_capa": imagem_capa,
+        "whatsapp_url": (
+            f"https://wa.me/{settings.CONTACT_PHONE_E164}"
+            f"?text={quote(whatsapp_message)}"
+        ),
     })
 
 def api_modelos_por_marca(request):
@@ -162,21 +174,30 @@ def callme(request):
     if not phone or not PHONE_RE.match(phone):
         return JsonResponse({"ok": False, "error": "Telefone inválido"}, status=400)
 
-    # ✅ Aqui você escolhe o que fazer:
-    # 1) Enviar email (recomendado e rápido)
     subject = "Gatilhauto - Pedido de contacto (Ligue-me)"
     message = f"Novo pedido de contacto:\n\nNome: {nome or '-'}\nTelefone: {phone}\nPágina: {page or '-'}\n"
-    to_email = getattr(settings, "CALLME_TO_EMAIL", None) or getattr(settings, "DEFAULT_TO_EMAIL", None)
+    to_email = settings.CALLME_TO_EMAIL
 
-    if to_email:
+    if not settings.EMAIL_CONFIGURED:
+        logger.error("Formulário Liga-me indisponível: configuração de email ausente.")
+        return JsonResponse(
+            {"ok": False, "error": "Serviço de email temporariamente indisponível"},
+            status=503,
+        )
+
+    try:
         send_mail(
             subject=subject,
             message=message,
-            from_email=getattr(settings, "DEFAULT_FROM_EMAIL", None),
+            from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[to_email],
-            fail_silently=True,
+            fail_silently=False,
         )
-
-    # (Opcional) 2) Salvar em DB depois, quando quiser (CallMeRequest model)
+    except Exception:
+        logger.exception("Falha ao enviar pedido de contacto Liga-me.")
+        return JsonResponse(
+            {"ok": False, "error": "Não foi possível enviar o pedido"},
+            status=503,
+        )
 
     return JsonResponse({"ok": True})

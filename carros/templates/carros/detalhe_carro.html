@@ -24,6 +24,7 @@
                 alt="{{ carro.titulo }}"
                 class="ga-gallery__main"
                 data-index="0"
+                decoding="async"
               />
             {% else %}
               <div class="ga-gallery__empty">Sem imagem</div>
@@ -56,7 +57,7 @@
                   data-idx="{{ forloop.counter0 }}"
                   aria-label="Ver imagem {{ forloop.counter }}"
                 >
-                  <img src="{{ img.imagem.url }}" alt="Imagem {{ forloop.counter }}" />
+                  <img src="{{ img.imagem.url }}" alt="Imagem {{ forloop.counter }}" loading="lazy" decoding="async" />
                 </button>
               {% endfor %}
             </div>
@@ -97,18 +98,16 @@
 
         <!-- CTA -->
         <div class="ga-side__cta">
-          {% with msg="Olá, tenho interesse no "|add:carro.marca|add:" "|add:carro.modelo|add:" "|add:carro.ano|stringformat:"s"|add:" anunciado no site Gatilhauto." %}
             <a
               class="ga-btn ga-btn--primary"
               target="_blank"
-              rel="noreferrer"
-              href="https://wa.me/351917314106?text={{ msg|urlencode }}"
+              rel="noopener noreferrer"
+              href="{{ whatsapp_url }}"
             >
               Fale Connosco (WhatsApp)
             </a>
-          {% endwith %}
 
-          <a class="ga-btn ga-btn--ghost" href="tel:+351917314106">
+          <a class="ga-btn ga-btn--ghost" href="tel:{{ CONTACT_PHONE_TEL }}">
             Ligar
           </a>
         </div>
@@ -168,16 +167,14 @@
 
   <!-- CTA mobile fixo -->
   <div class="ga-mobilebar">
-    {% with msg="Olá, tenho interesse no "|add:carro.marca|add:" "|add:carro.modelo|add:" "|add:carro.ano|stringformat:"s"|add:" anunciado no site Gatilhauto." %}
       <a
         class="ga-mobilebar__btn"
         target="_blank"
-        rel="noreferrer"
-        href="https://wa.me/351917314106?text={{ msg|urlencode }}"
+        rel="noopener noreferrer"
+        href="{{ whatsapp_url }}"
       >
         Falar no WhatsApp
       </a>
-    {% endwith %}
   </div>
 </section>
 

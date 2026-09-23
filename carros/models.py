@@ -16,11 +16,6 @@ class Carro(models.Model):
         ('automatica', 'Automática'),
     ]
 
-    transmissao = models.CharField(
-        max_length=20,
-        choices=TRANSMISSAO_CHOICES
-    )
-
     TIPO_VEICULO_CHOICES = [
         ('auto', 'Automóveis'),
         ('comercial', 'Comerciais'),
@@ -52,6 +47,11 @@ class Carro(models.Model):
     def __str__(self):
         return f"{self.marca} {self.modelo} ({self.ano})"
 
+    def clean(self):
+        super().clean()
+        if self.marca_id and self.modelo_id and self.modelo.marca_id != self.marca_id:
+            raise ValidationError({"modelo": "O modelo selecionado não pertence à marca escolhida."})
+
 
 class ImagemCarro(models.Model):
     carro = models.ForeignKey(Carro, related_name='imagens', on_delete=models.CASCADE)
@@ -82,7 +82,3 @@ class Modelo(models.Model):
 
     def __str__(self):
         return f"{self.marca.nome} {self.nome}"
-
-def clean(self):
-    if self.marca_id and self.modelo_id and self.modelo.marca_id != self.marca_id:
-        raise ValidationError({"modelo": "O modelo selecionado não pertence à marca escolhida."})
