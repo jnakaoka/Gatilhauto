@@ -1,10 +1,16 @@
+import base64
+import json
+import tempfile
+
 from django.contrib.auth import get_user_model
 from django.core import mail
 from django.core.exceptions import ValidationError
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, override_settings
 from django.urls import reverse
 
-from .models import Carro, Marca, Modelo
+from .admin import CarroAdminForm
+from .models import Carro, ImagemCarro, Marca, Modelo
 
 
 class SiteTests(TestCase):
@@ -106,6 +112,40 @@ class AdminTests(TestCase):
 
     def setUp(self):
         self.client.force_login(self.admin)
+        self._media_dir = tempfile.TemporaryDirectory()
+        self._media_override = override_settings(MEDIA_ROOT=self._media_dir.name)
+        self._media_override.enable()
+        self.addCleanup(self._media_override.disable)
+        self.addCleanup(self._media_dir.cleanup)
+
+    @staticmethod
+    def imagem_teste(nome):
+        conteudo = base64.b64decode(
+            "R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+        )
+        return SimpleUploadedFile(nome, conteudo, content_type="image/gif")
+
+    def dados_carro(self, **alteracoes):
+        dados = {
+            "titulo": "Criada no Admin",
+            "marca": str(self.marca.pk),
+            "modelo": str(self.modelo.pk),
+            "ano": "2024",
+            "quilometragem": "100",
+            "preco": "15000",
+            "combustivel": "gasolina",
+            "transmissao": "manual",
+            "tipo_veiculo": "auto",
+            "descricao": "",
+            "ativo": "on",
+            "imagens-TOTAL_FORMS": "0",
+            "imagens-INITIAL_FORMS": "0",
+            "imagens-MIN_NUM_FORMS": "0",
+            "imagens-MAX_NUM_FORMS": "1000",
+            "_save": "Guardar",
+        }
+        dados.update(alteracoes)
+        return dados
 
     def test_admin_carrega_modelos_por_marca(self):
         response = self.client.get(
@@ -120,24 +160,7 @@ class AdminTests(TestCase):
 
     def test_admin_cria_edita_e_elimina_viatura(self):
         add_url = reverse("admin:carros_carro_add")
-        form = {
-            "titulo": "Criada no Admin",
-            "marca": str(self.marca.pk),
-            "modelo": str(self.modelo.pk),
-            "ano": "2024",
-            "quilometragem": "100",
-            "preco": "15000.00",
-            "combustivel": "gasolina",
-            "transmissao": "manual",
-            "tipo_veiculo": "auto",
-            "descricao": "",
-            "ativo": "on",
-            "imagens-TOTAL_FORMS": "0",
-            "imagens-INITIAL_FORMS": "0",
-            "imagens-MIN_NUM_FORMS": "0",
-            "imagens-MAX_NUM_FORMS": "1000",
-            "_save": "Guardar",
-        }
+        form = self.dados_carro()
         response = self.client.post(add_url, form)
         self.assertEqual(response.status_code, 302)
 
@@ -158,3 +181,85 @@ class AdminTests(TestCase):
         )
         self.assertEqual(response.status_code, 302)
         self.assertFalse(Carro.objects.filter(pk=carro.pk).exists())
+
+    def test_preco_e_quilometragem_sao_inteiros_no_admin(self):
+        carro = Carro.objects.create(
+            titulo="Sem decimais",
+            marca=self.marca,
+            modelo=self.modelo,
+            ano=2024,
+            quilometragem=1234,
+            preco="15000.00",
+        )
+        form = CarroAdminForm(instance=carro)
+        self.assertEqual(form["preco"].value(), 15000)
+        self.assertEqual(form["quilometragem"].value(), 1234)
+
+        form_decimal = CarroAdminForm(
+            data=self.dados_carro(preco="15000.50"),
+            instance=carro,
+        )
+        self.assertFalse(form_decimal.is_valid())
+        self.assertIn("preco", form_decimal.errors)
+
+    def test_admin_aceita_varias_imagens_no_mesmo_cadastro(self):
+        dados = self.dados_carro()
+        dados["novas_imagens"] = [
+            self.imagem_teste("frente.gif"),
+            self.imagem_teste("traseira.gif"),
+        ]
+        response = self.client.post(reverse("admin:carros_carro_add"), dados)
+        self.assertEqual(response.status_code, 302)
+        carro = Carro.objects.get(titulo="Criada no Admin")
+        self.assertEqual(carro.imagens.count(), 2)
+
+    def test_upload_temporario_sobrevive_a_erro_do_formulario(self):
+        upload_url = reverse("admin:carros_carro_upload_imagem_temporaria")
+        upload_response = self.client.post(
+            upload_url,
+            {"imagem": self.imagem_teste("lateral.gif")},
+        )
+        self.assertEqual(upload_response.status_code, 200)
+        item = upload_response.json()
+        temporarias = json.dumps([item])
+
+        add_url = reverse("admin:carros_carro_add")
+        response = self.client.post(
+            add_url,
+            self.dados_carro(titulo="", imagens_temporarias=temporarias),
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.context["adminform"].form["imagens_temporarias"].value(),
+            temporarias,
+        )
+
+        response = self.client.post(
+            add_url,
+            self.dados_carro(imagens_temporarias=temporarias),
+        )
+        self.assertEqual(response.status_code, 302)
+        carro = Carro.objects.get(titulo="Criada no Admin")
+        self.assertEqual(carro.imagens.count(), 1)
+        self.assertFalse(ImagemCarro.objects.filter(carro=carro, imagem="").exists())
+
+    def test_edicao_mantem_modelo_da_marca_no_formulario(self):
+        carro = Carro.objects.create(
+            titulo="Editar modelo",
+            marca=self.marca,
+            modelo=self.modelo,
+            ano=2024,
+            quilometragem=100,
+            preco="15000",
+        )
+        response = self.client.get(
+            reverse("admin:carros_carro_change", args=[carro.pk])
+        )
+        self.assertEqual(response.status_code, 200)
+        campo = response.context["adminform"].form["modelo"]
+        self.assertEqual(campo.value(), self.modelo.pk)
+        self.assertIn(self.modelo, campo.field.queryset)
+
+    def test_servicos_nao_mostra_botao_agendar(self):
+        response = self.client.get(reverse("servicos"))
+        self.assertNotContains(response, ">Agendar<")

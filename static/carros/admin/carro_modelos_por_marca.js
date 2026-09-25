@@ -20,7 +20,7 @@
     modeloEl.disabled = true;
   }
 
-  function fillModelos(modeloEl, modelos) {
+  function fillModelos(modeloEl, modelos, modeloSelecionado) {
     modeloEl.innerHTML = '<option value="">Selecione o modelo</option>';
     modelos.forEach((m) => {
       const opt = document.createElement("option");
@@ -28,10 +28,13 @@
       opt.textContent = m.nome;
       modeloEl.appendChild(opt);
     });
+    if (modeloSelecionado && modelos.some((m) => String(m.id) === String(modeloSelecionado))) {
+      modeloEl.value = String(modeloSelecionado);
+    }
     modeloEl.disabled = false;
   }
 
-  async function loadModelosByMarca(marcaId) {
+  async function loadModelosByMarca(marcaId, modeloSelecionado = "") {
     const modeloEl = document.getElementById("id_modelo");
     if (!modeloEl) return;
 
@@ -60,7 +63,7 @@
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
       const data = await res.json();
-      fillModelos(modeloEl, data);
+      fillModelos(modeloEl, data, modeloSelecionado);
     } catch (e) {
       console.error("[carro_modelos_por_marca] erro", e);
       modeloEl.innerHTML = '<option value="">Erro ao carregar modelos</option>';
@@ -85,7 +88,8 @@
       modeloEl.innerHTML = '<option value="">Selecione a marca primeiro</option>';
       modeloEl.disabled = true;
     } else {
-      loadModelosByMarca(marcaEl.value);
+      // Preserva o modelo atual ao editar ou quando o formulário volta com erros.
+      loadModelosByMarca(marcaEl.value, modeloEl.value);
     }
   });
 })();
