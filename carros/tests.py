@@ -211,6 +211,11 @@ class AdminTests(TestCase):
         self.assertFalse(form_decimal.is_valid())
         self.assertIn("preco", form_decimal.errors)
 
+        response = self.client.get(reverse("admin:carros_carro_changelist"))
+        self.assertContains(response, ">15000<")
+        self.assertNotContains(response, "15000,00")
+        self.assertNotContains(response, "15000.00")
+
     def test_admin_aceita_varias_imagens_no_mesmo_cadastro(self):
         dados = self.dados_carro()
         dados["novas_imagens"] = [

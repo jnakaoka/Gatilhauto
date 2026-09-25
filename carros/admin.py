@@ -145,7 +145,7 @@ class CarroAdminForm(forms.ModelForm):
 class CarroAdmin(admin.ModelAdmin):
     form = CarroAdminForm
 
-    list_display = ("titulo", "marca", "modelo", "ano", "preco", "ativo", "tipo_veiculo", "transmissao", "combustivel")
+    list_display = ("titulo", "marca", "modelo", "ano", "preco_inteiro", "ativo", "tipo_veiculo", "transmissao", "combustivel")
     list_filter = ("marca", "ano", "combustivel", "transmissao", "ativo", "tipo_veiculo", "modelo")
     search_fields = ("titulo", "marca__nome", "modelo__nome")
     inlines = [ImagemCarroInline]
@@ -161,6 +161,10 @@ class CarroAdmin(admin.ModelAdmin):
 
         # adiciona também um css qualquer inexistente só pra ver 404 no network
         #css = {"all": ("carros/admin/teste.css",)}
+
+    @admin.display(description="Preço", ordering="preco")
+    def preco_inteiro(self, obj):
+        return int(obj.preco)
 
     def get_urls(self):
         urls = super().get_urls()
