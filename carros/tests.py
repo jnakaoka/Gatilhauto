@@ -259,6 +259,14 @@ class AdminTests(TestCase):
         campo = response.context["adminform"].form["modelo"]
         self.assertEqual(campo.value(), self.modelo.pk)
         self.assertIn(self.modelo, campo.field.queryset)
+        self.assertEqual(
+            response.context["adminform"].form["modelo_atual"].value(),
+            str(self.modelo.pk),
+        )
+        self.assertContains(
+            response,
+            f'name="modelo_atual" value="{self.modelo.pk}"',
+        )
 
     def test_servicos_nao_mostra_botao_agendar(self):
         response = self.client.get(reverse("servicos"))

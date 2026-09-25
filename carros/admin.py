@@ -100,6 +100,7 @@ class CarroAdminForm(forms.ModelForm):
         required=False,
         widget=forms.HiddenInput(),
     )
+    modelo_atual = forms.CharField(required=False, widget=forms.HiddenInput())
 
     class Meta:
         model = Carro
@@ -110,6 +111,15 @@ class CarroAdminForm(forms.ModelForm):
 
         # 1) Por padrão, não mostra nada até escolher Marca
         self.fields["modelo"].queryset = Modelo.objects.none()
+
+        # O JavaScript reconstrói as opções após carregar a página. Guardamos
+        # explicitamente o modelo atual para que ele não dependa do momento em
+        # que o navegador aplica o atributo selected ao <select>.
+        modelo_selecionado = self.data.get("modelo") if self.is_bound else None
+        if not modelo_selecionado and self.instance and self.instance.pk:
+            modelo_selecionado = self.instance.modelo_id
+        if modelo_selecionado:
+            self.fields["modelo_atual"].initial = str(modelo_selecionado)
 
         # 2) O POST tem prioridade, inclusive ao voltar com erros de validação.
         marca_id = self.data.get("marca") if self.is_bound else None

@@ -30,6 +30,8 @@
     });
     if (modeloSelecionado && modelos.some((m) => String(m.id) === String(modeloSelecionado))) {
       modeloEl.value = String(modeloSelecionado);
+      const modeloAtual = document.getElementById("id_modelo_atual");
+      if (modeloAtual) modeloAtual.value = String(modeloSelecionado);
     }
     modeloEl.disabled = false;
   }
@@ -74,7 +76,13 @@
   // ✅ Event delegation: não quebra se o admin recriar o select
   document.addEventListener("change", function (e) {
     if (e.target && e.target.id === "id_marca") {
+      const modeloAtual = document.getElementById("id_modelo_atual");
+      if (modeloAtual) modeloAtual.value = "";
       loadModelosByMarca(e.target.value);
+    }
+    if (e.target && e.target.id === "id_modelo") {
+      const modeloAtual = document.getElementById("id_modelo_atual");
+      if (modeloAtual) modeloAtual.value = e.target.value;
     }
   });
 
@@ -89,7 +97,9 @@
       modeloEl.disabled = true;
     } else {
       // Preserva o modelo atual ao editar ou quando o formulário volta com erros.
-      loadModelosByMarca(marcaEl.value, modeloEl.value);
+      const modeloAtual = document.getElementById("id_modelo_atual");
+      const modeloSelecionado = (modeloAtual && modeloAtual.value) || modeloEl.value;
+      loadModelosByMarca(marcaEl.value, modeloSelecionado);
     }
   });
 })();
