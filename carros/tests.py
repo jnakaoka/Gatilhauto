@@ -49,6 +49,15 @@ class SiteTests(TestCase):
         self.assertContains(response, "https://wa.me/351913378940")
         self.assertContains(response, "Marca%20Teste%20Modelo%20Teste%202025")
         self.assertContains(response, "tel:+351913378940")
+        self.assertContains(response, "€ 19990")
+        self.assertNotContains(response, "19990,00")
+        self.assertNotContains(response, "19990.00")
+
+    def test_preco_sem_decimais_na_listagem(self):
+        response = self.client.get(reverse("home"))
+        self.assertContains(response, "€ 19990")
+        self.assertNotContains(response, "19990,00")
+        self.assertNotContains(response, "19990.00")
 
     def test_carro_inativo_nao_e_publicado(self):
         self.carro.ativo = False

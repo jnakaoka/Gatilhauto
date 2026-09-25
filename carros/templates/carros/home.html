@@ -330,7 +330,7 @@
               <div class="text-sm text-[#9CA3AF] mt-1">{{ carro.ano }} • {{ carro.quilometragem }} km • {{ carro.get_combustivel_display }} • {{ carro.get_transmissao_display }} • {{ carro.get_tipo_veiculo_display }}</div>
             </div>
             <div class="ga-gold font-extrabold text-xl whitespace-nowrap">
-              € {{ carro.preco }}
+              € {{ carro.preco|floatformat:"0" }}
             </div>
           </div>
 
